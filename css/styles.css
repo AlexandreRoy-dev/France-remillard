@@ -201,61 +201,55 @@ select {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.55rem;
   min-height: 44px;
-  padding: 0.7rem 1.15rem;
-  border: 1px solid transparent;
-  border-radius: 0;
+  padding: 0.85em 1.35em;
+  border: 2px solid transparent;
+  border-radius: 4px;
   text-decoration: none;
   white-space: nowrap;
+  font-size: 0.9rem;
+  line-height: 1.5;
   cursor: pointer;
   transition:
-    background-color var(--duration-ui) var(--ease-out-quad),
-    color var(--duration-ui) var(--ease-out-quad),
-    border-color var(--duration-ui) var(--ease-out-quad),
-    transform var(--duration-ui) var(--ease-out-quad);
-}
-
-.btn:active {
-  transform: translateY(1px);
+    background-color 0.4s ease,
+    color 0.4s ease,
+    border-color 0.4s ease;
 }
 
 .btn--primary {
   background: var(--color-red);
   color: var(--color-white);
+  border-color: var(--color-red);
 }
 
-.btn--primary:hover {
+.btn--primary:hover,
+.btn--primary:focus-visible {
   background: var(--color-red-hover);
+  border-color: var(--color-red-hover);
+  color: var(--color-white);
 }
 
 .btn--ghost {
   background: transparent;
-  color: var(--color-black);
-  border-color: var(--color-black);
+  color: var(--color-red);
+  border-color: #333;
 }
 
-.btn--ghost:hover {
-  background: var(--color-black);
+.btn--ghost:hover,
+.btn--ghost:focus-visible {
+  background: var(--color-red);
+  border-color: var(--color-red);
   color: var(--color-white);
 }
 
 .btn--on-dark {
   background: var(--color-white);
   color: var(--color-black);
+  border-color: var(--color-white);
 }
 
 .btn--on-dark:hover {
   background: var(--color-tint);
-}
-
-.btn .btn__icon {
-  display: inline-flex;
-  width: 1.35rem;
-  height: 1.35rem;
-  align-items: center;
-  justify-content: center;
-  background: rgb(255 255 255 / 0.16);
 }
 
 .hero {
