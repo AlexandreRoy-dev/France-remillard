@@ -1,0 +1,55 @@
+:root {
+  --color-red: #ea002a;
+  --color-red-hover: #c40024;
+  --color-black: #111111;
+  --color-white: #ffffff;
+  --color-text: #4d4d4d;
+  --color-text-strong: #111111;
+  --color-muted: #6b6b6b;
+  --color-tint: #f4f4f4;
+  --color-line: #d9d9d9;
+  --color-focus: #ea002a;
+
+  --font-sans: "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-md: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.375rem;
+  --text-2xl: clamp(1.5rem, 2.4vw, 1.875rem);
+  --text-3xl: clamp(1.75rem, 3vw, 2.25rem);
+  --text-display: clamp(2.25rem, 5vw, 3.5rem);
+
+  --leading-tight: 1.15;
+  --leading-snug: 1.35;
+  --leading-body: 1.65;
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4rem;
+  --space-9: 6rem;
+  --space-10: 8rem;
+
+  --page-pad: clamp(1.25rem, 4vw, 3rem);
+  --container: 72rem;
+  --header-h: 4.5rem;
+
+  --radius-input: 4px;
+  --radius-media: 8px;
+
+  --ease-out-quad: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --duration-in: 0.7s;
+  --duration-ui: 0.22s;
+
+  --z-header: 20;
+  --z-nav: 30;
+  --z-skip: 40;
+
+  --shadow-soft: 0 16px 40px rgb(17 17 17 / 0.08);
+}
