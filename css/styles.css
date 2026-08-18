@@ -10,10 +10,15 @@ html {
   scroll-padding-top: calc(var(--header-h) + 0.5rem);
   color-scheme: light;
   overflow-x: clip;
+  overscroll-behavior-x: none;
 }
 
 body {
   margin: 0;
+  max-width: 100%;
+  overflow-x: clip;
+  overscroll-behavior-x: none;
+  touch-action: pan-y pinch-zoom;
   font-family: var(--font-sans);
   font-size: var(--text-lg);
   line-height: var(--leading-body);
@@ -72,6 +77,7 @@ select {
 
 .container {
   width: min(100% - (var(--page-pad) * 2), var(--container));
+  max-width: 100%;
   margin-inline: auto;
 }
 
@@ -96,6 +102,8 @@ select {
   align-items: center;
   justify-content: space-between;
   gap: var(--space-4);
+  min-width: 0;
+  max-width: 100%;
   height: calc(var(--header-h) - 4px);
 }
 
@@ -187,6 +195,7 @@ select {
 .header-actions {
   display: flex;
   align-items: center;
+  flex-shrink: 0;
   gap: var(--space-2);
 }
 
@@ -414,12 +423,22 @@ select {
   color: var(--color-text-strong);
 }
 
+.awards-carousel {
+  min-width: 0;
+  max-width: 100%;
+  overflow-x: clip;
+}
+
 .awards-carousel__viewport {
-  overflow: hidden;
+  overflow: clip;
+  width: 100%;
+  min-width: 0;
+  touch-action: pan-y;
 }
 
 .awards__list {
   display: flex;
+  width: 100%;
   margin: var(--space-5) 0 0;
   padding: 0;
   list-style: none;
@@ -428,6 +447,9 @@ select {
 
 .awards__list > li {
   flex: 0 0 100%;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
 }
 
 .award {
@@ -566,6 +588,7 @@ select {
   font-size: var(--text-md);
   font-weight: 400;
   color: var(--color-text-strong);
+  overflow-wrap: anywhere;
 }
 
 .listing-card__meta {
@@ -740,11 +763,15 @@ select {
 .contact-card dd {
   margin: 0.35rem 0 0;
   color: var(--color-text-strong);
+  overflow-wrap: anywhere;
 }
 
 .form {
+  position: relative;
   display: grid;
   gap: var(--space-4);
+  min-width: 0;
+  max-width: 100%;
   padding: var(--space-6);
   background: var(--color-white);
   border-radius: var(--radius-media);
@@ -753,6 +780,7 @@ select {
 .field {
   display: grid;
   gap: 0.4rem;
+  min-width: 0;
 }
 
 .field label,
@@ -761,9 +789,10 @@ select {
   color: var(--color-black);
 }
 
-.field input,
+.field input:not([type="radio"]):not([type="checkbox"]),
 .field textarea {
   width: 100%;
+  max-width: 100%;
   min-height: 48px;
   padding: 0.7rem 0.8rem;
   border: 1px solid #b3b3b3;
@@ -777,7 +806,7 @@ select {
   resize: vertical;
 }
 
-.field input:focus,
+.field input:not([type="radio"]):not([type="checkbox"]):focus,
 .field textarea:focus {
   outline: 2px solid var(--color-focus);
   outline-offset: 2px;
@@ -794,6 +823,8 @@ select {
   border: 0;
   padding: 0;
   margin: 0;
+  min-width: 0;
+  max-width: 100%;
 }
 
 .fieldset legend {
@@ -806,21 +837,68 @@ select {
 .choices {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-4);
+  align-items: center;
+  gap: var(--space-3) var(--space-5);
 }
 
 .choice {
   display: flex;
+  align-items: flex-start;
+  gap: 0.55rem;
+  max-width: 100%;
+}
+
+.choices .choice {
   align-items: center;
-  gap: 0.5rem;
+  min-height: 44px;
+}
+
+.choice span {
+  min-width: 0;
+  flex: 1 1 auto;
+  overflow-wrap: break-word;
+}
+
+.choices .choice span {
+  flex: 0 0 auto;
+}
+
+.choice input[type="radio"],
+.choice input[type="checkbox"] {
+  flex: 0 0 auto;
+  width: 1.25rem;
+  height: 1.25rem;
+  min-width: 1.25rem;
+  min-height: 1.25rem;
+  margin: 0.15em 0 0;
+  padding: 0;
+  accent-color: var(--color-red);
+}
+
+.choices .choice input[type="radio"] {
+  margin-top: 0;
 }
 
 .hp {
   position: absolute;
-  left: -9999px;
   width: 1px;
   height: 1px;
+  padding: 0;
+  margin: -1px;
   overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+.hp input {
+  width: 1px;
+  max-width: 1px;
+  height: 1px;
+  margin: 0;
+  padding: 0;
+  border: 0;
 }
 
 .form-status {
@@ -866,6 +944,7 @@ select {
 
 .footer-note {
   margin-top: var(--space-4);
+  overflow-wrap: anywhere;
 }
 
 .footer-links {
@@ -1023,6 +1102,17 @@ select {
     padding: 0.9rem 0;
     border-bottom: 1px solid var(--color-line);
     font-size: var(--text-lg);
+  }
+}
+
+@media (max-width: 767px) {
+  .form {
+    padding: var(--space-4);
+  }
+
+  .form > .btn {
+    width: 100%;
+    white-space: normal;
   }
 }
 
