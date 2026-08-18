@@ -95,6 +95,17 @@
 
     <main id="contenu">
       <section class="hero" id="accueil">
+        <div class="hero__media" aria-hidden="true">
+          <picture>
+            <source srcset="assets/images/maison-banlieue.webp" type="image/webp" />
+            <img
+              src="assets/images/maison-banlieue.jpg"
+              alt=""
+              width="1920"
+              height="1280"
+            />
+          </picture>
+        </div>
         <div class="container hero__grid">
           <div class="hero__copy animIn">
             <p class="eyebrow">Royal LePage Humania</p>
@@ -109,24 +120,20 @@
                 Voir mes inscriptions
               </a>
             </div>
+            <p class="portrait__caption">Saint-Jérôme, permis OACIQ</p>
           </div>
 
           <figure class="portrait animIn" data-animation-delay-in-seconds="0.3">
-            <div class="portrait__frame">
-              <picture>
-                <source srcset="assets/images/france-remillard.webp" type="image/webp" />
-                <img
-                  src="assets/images/france-remillard.jpg"
-                  alt="France Rémillard, courtière immobilière à Saint-Jérôme"
-                  width="300"
-                  height="400"
-                  fetchpriority="high"
-                />
-              </picture>
-            </div>
-            <figcaption class="portrait__caption">
-              Saint-Jérôme, permis OACIQ
-            </figcaption>
+            <picture>
+              <source srcset="assets/images/france-remillard-cutout.webp" type="image/webp" />
+              <img
+                src="assets/images/france-remillard-cutout.png"
+                alt="France Rémillard, courtière immobilière à Saint-Jérôme"
+                width="300"
+                height="400"
+                fetchpriority="high"
+              />
+            </picture>
           </figure>
         </div>
       </section>
