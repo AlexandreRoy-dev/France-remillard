@@ -708,6 +708,8 @@ select {
 .form {
   display: grid;
   gap: var(--space-4);
+  min-width: 0;
+  max-width: 100%;
   padding: var(--space-6);
   background: var(--color-white);
   border-radius: var(--radius-media);
@@ -716,6 +718,7 @@ select {
 .field {
   display: grid;
   gap: 0.4rem;
+  min-width: 0;
 }
 
 .field label,
@@ -724,9 +727,10 @@ select {
   color: var(--color-black);
 }
 
-.field input,
+.field input:not([type="radio"]):not([type="checkbox"]),
 .field textarea {
   width: 100%;
+  max-width: 100%;
   min-height: 48px;
   padding: 0.7rem 0.8rem;
   border: 1px solid #b3b3b3;
@@ -740,7 +744,7 @@ select {
   resize: vertical;
 }
 
-.field input:focus,
+.field input:not([type="radio"]):not([type="checkbox"]):focus,
 .field textarea:focus {
   outline: 2px solid var(--color-focus);
   outline-offset: 2px;
@@ -757,6 +761,8 @@ select {
   border: 0;
   padding: 0;
   margin: 0;
+  min-width: 0;
+  max-width: 100%;
 }
 
 .fieldset legend {
@@ -769,13 +775,46 @@ select {
 .choices {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-4);
+  align-items: center;
+  gap: var(--space-3) var(--space-5);
 }
 
 .choice {
   display: flex;
+  align-items: flex-start;
+  gap: 0.55rem;
+  max-width: 100%;
+}
+
+.choices .choice {
   align-items: center;
-  gap: 0.5rem;
+  min-height: 44px;
+}
+
+.choice span {
+  min-width: 0;
+  flex: 1 1 auto;
+  overflow-wrap: break-word;
+}
+
+.choices .choice span {
+  flex: 0 0 auto;
+}
+
+.choice input[type="radio"],
+.choice input[type="checkbox"] {
+  flex: 0 0 auto;
+  width: 1.25rem;
+  height: 1.25rem;
+  min-width: 1.25rem;
+  min-height: 1.25rem;
+  margin: 0.15em 0 0;
+  padding: 0;
+  accent-color: var(--color-red);
+}
+
+.choices .choice input[type="radio"] {
+  margin-top: 0;
 }
 
 .hp {
@@ -979,6 +1018,17 @@ select {
     padding: 0.9rem 0;
     border-bottom: 1px solid var(--color-line);
     font-size: var(--text-lg);
+  }
+}
+
+@media (max-width: 767px) {
+  .form {
+    padding: var(--space-4);
+  }
+
+  .form > .btn {
+    width: 100%;
+    white-space: normal;
   }
 }
 
