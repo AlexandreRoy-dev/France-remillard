@@ -303,15 +303,14 @@ select {
   z-index: 2;
   display: grid;
   gap: var(--space-5);
-  align-items: end;
+  align-items: center;
   min-height: calc(100dvh - var(--header-h));
-  padding-top: var(--space-7);
+  padding-block: var(--space-7) var(--space-8);
 }
 
 .hero__copy {
   max-width: 38rem;
   align-self: center;
-  padding-bottom: var(--space-6);
 }
 
 .hero__copy .eyebrow {
@@ -347,26 +346,29 @@ select {
   margin-top: var(--space-6);
 }
 
-.hero__copy .portrait__caption {
-  margin-top: var(--space-4);
-}
-
 .portrait {
   position: relative;
-  width: min(100%, 18.5rem);
+  width: min(100%, 20rem);
   margin: 0 auto;
   justify-self: center;
 }
 
+.portrait__frame {
+  overflow: hidden;
+  border-radius: var(--radius-media);
+  background: var(--color-white);
+  box-shadow: var(--shadow-soft);
+}
+
 .portrait img {
   width: 100%;
-  height: auto;
-  object-fit: contain;
-  object-position: bottom center;
-  filter: drop-shadow(0 16px 28px rgb(17 17 17 / 0.22));
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  object-position: 50% 18%;
 }
 
 .portrait__caption {
+  margin-top: var(--space-3);
   font-size: 0.8rem;
   color: var(--color-muted);
 }
@@ -980,20 +982,19 @@ select {
   }
 
   .hero__grid {
-    grid-template-columns: minmax(0, 1.15fr) minmax(16rem, 21rem);
-    align-items: stretch;
-    padding-top: var(--space-6);
+    grid-template-columns: minmax(0, 1.15fr) minmax(16rem, 20rem);
+    align-items: center;
+    padding-block: var(--space-6) var(--space-8);
   }
 
   .hero__copy {
     align-self: center;
-    padding-bottom: var(--space-8);
   }
 
   .portrait {
-    width: min(100%, 21rem);
+    width: min(100%, 20rem);
     margin: 0 0 0 auto;
-    align-self: end;
+    align-self: center;
   }
 
   .listing-grid {
