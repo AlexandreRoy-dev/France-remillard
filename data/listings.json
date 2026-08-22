@@ -1,5 +1,5 @@
 {
-  "synced_at": "2026-08-21T18:58:24Z",
+  "synced_at": "2026-08-22T18:50:12Z",
   "source": "https://www.royallepage.ca/fr/search/get-list/property/53785/1/",
   "count": 20,
   "listings": [
@@ -22,24 +22,6 @@
       "alt": "638 Rue du Joli-Bois Prévost, QC J0R 1T0"
     },
     {
-      "id": "29017100",
-      "url": "https://www.royallepage.ca/fr/property/quebec/bois-des-filion/335z-335az-boul-adolphe-chapleau/29017100/mls16857833/",
-      "mls": "16857833",
-      "sold": false,
-      "price_label": "899 000 $ +TPS/TVQ $",
-      "type": "Commercial",
-      "bedrooms": "",
-      "bathrooms": "",
-      "address": "335Z - 335AZ Boul. Adolphe-Chapleau",
-      "city": "Bois-Des-Filion",
-      "postal": "J6Z 1Y6",
-      "photo_remote": "https://rlp.jumplisting.com/photos/29/1/71/0/29017100_0_med.jpg",
-      "photo": "assets/images/listings/29017100.jpg",
-      "lat": 45.6723912,
-      "lng": -73.75303098,
-      "alt": "335Z - 335AZ Boul. Adolphe-Chapleau Bois-Des-Filion, QC J6Z 1Y6"
-    },
-    {
       "id": "29016234",
       "url": "https://www.royallepage.ca/fr/property/quebec/bois-des-filion/335-335a-boul-adolphe-chapleau/29016234/mls20522931/",
       "mls": "20522931",
@@ -56,6 +38,24 @@
       "lat": 45.6723912,
       "lng": -73.75303098,
       "alt": "335 - 335A Boul. Adolphe-Chapleau Bois-Des-Filion, QC J6Z 1Y6"
+    },
+    {
+      "id": "29017100",
+      "url": "https://www.royallepage.ca/fr/property/quebec/bois-des-filion/335z-335az-boul-adolphe-chapleau/29017100/mls16857833/",
+      "mls": "16857833",
+      "sold": false,
+      "price_label": "899 000 $ +TPS/TVQ $",
+      "type": "Commercial",
+      "bedrooms": "",
+      "bathrooms": "",
+      "address": "335Z - 335AZ Boul. Adolphe-Chapleau",
+      "city": "Bois-Des-Filion",
+      "postal": "J6Z 1Y6",
+      "photo_remote": "https://rlp.jumplisting.com/photos/29/1/71/0/29017100_0_med.jpg",
+      "photo": "assets/images/listings/29017100.jpg",
+      "lat": 45.6723912,
+      "lng": -73.75303098,
+      "alt": "335Z - 335AZ Boul. Adolphe-Chapleau Bois-Des-Filion, QC J6Z 1Y6"
     },
     {
       "id": "28873701",
