@@ -1,8 +1,26 @@
 {
-  "synced_at": "2026-08-20T19:01:41Z",
+  "synced_at": "2026-08-23T13:03:51Z",
   "source": "https://www.royallepage.ca/fr/search/get-list/property/53785/1/",
-  "count": 19,
+  "count": 20,
   "listings": [
+    {
+      "id": "29026140",
+      "url": "https://www.royallepage.ca/fr/property/quebec/prevost/638-rue-du-joli-bois/29026140/mls12220990/",
+      "mls": "12220990",
+      "sold": false,
+      "price_label": "875 000 $",
+      "type": "Maison",
+      "bedrooms": "4",
+      "bathrooms": "2+0",
+      "address": "638 Rue du Joli-Bois",
+      "city": "Prévost",
+      "postal": "J0R 1T0",
+      "photo_remote": "https://rlp.jumplisting.com/photos/29/2/61/40/29026140_0_med.jpg",
+      "photo": "assets/images/listings/29026140.jpg",
+      "lat": 45.851086,
+      "lng": -74.090894,
+      "alt": "638 Rue du Joli-Bois Prévost, QC J0R 1T0"
+    },
     {
       "id": "29017100",
       "url": "https://www.royallepage.ca/fr/property/quebec/bois-des-filion/335z-335az-boul-adolphe-chapleau/29017100/mls16857833/",
