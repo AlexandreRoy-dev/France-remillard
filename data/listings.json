@@ -1,7 +1,7 @@
 {
-  "synced_at": "2026-09-01T11:42:22Z",
+  "synced_at": "2026-09-01T21:04:12Z",
   "source": "https://www.royallepage.ca/fr/search/get-list/property/53785/1/",
-  "count": 20,
+  "count": 19,
   "listings": [
     {
       "id": "29026140",
@@ -308,24 +308,6 @@
       "lat": 45.861972,
       "lng": -73.90409,
       "alt": "144 Rue Francis Sainte-Sophie, QC J5J 0C2"
-    },
-    {
-      "id": "27392989",
-      "url": "https://www.royallepage.ca/fr/property/quebec/sainte-sophie/2084-ch-de-val-des-lacs/27392989/mls21994879/",
-      "mls": "21994879",
-      "sold": false,
-      "price_label": "899 000 $",
-      "type": "Maison",
-      "bedrooms": "3",
-      "bathrooms": "2+1",
-      "address": "2084 Ch. de Val-des-Lacs",
-      "city": "Sainte-Sophie",
-      "postal": "J5J 2S8",
-      "photo_remote": "https://rlp.jumplisting.com/photos/27/39/29/89/27392989_0_med.jpg",
-      "photo": "assets/images/listings/27392989.jpg",
-      "lat": 45.840501,
-      "lng": -74.019364,
-      "alt": "2084 Ch. de Val-des-Lacs Sainte-Sophie, QC J5J 2S8"
     },
     {
       "id": "27374826",
