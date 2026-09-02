@@ -1,8 +1,26 @@
 {
-  "synced_at": "2026-09-02T11:22:58Z",
+  "synced_at": "2026-09-02T16:37:05Z",
   "source": "https://www.royallepage.ca/fr/search/get-list/property/53785/1/",
-  "count": 19,
+  "count": 20,
   "listings": [
+    {
+      "id": "29103178",
+      "url": "https://www.royallepage.ca/fr/property/quebec/sainte-sophie/2084-ch-de-val-des-lacs/29103178/mls27672609/",
+      "mls": "27672609",
+      "sold": false,
+      "price_label": "874 900 $",
+      "type": "Maison",
+      "bedrooms": "3",
+      "bathrooms": "2+1",
+      "address": "2084 Ch. de Val-des-Lacs",
+      "city": "Sainte-Sophie",
+      "postal": "J5J 2S8",
+      "photo_remote": "https://rlp.jumplisting.com/photos/29/10/31/78/29103178_0_med.jpg",
+      "photo": "assets/images/listings/29103178.jpg",
+      "lat": 45.840501,
+      "lng": -74.019364,
+      "alt": "2084 Ch. de Val-des-Lacs Sainte-Sophie, QC J5J 2S8"
+    },
     {
       "id": "29026140",
       "url": "https://www.royallepage.ca/fr/property/quebec/prevost/638-rue-du-joli-bois/29026140/mls12220990/",
