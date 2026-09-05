@@ -1,5 +1,5 @@
 {
-  "synced_at": "2026-09-05T04:34:09Z",
+  "synced_at": "2026-09-05T15:17:03Z",
   "source": "https://www.royallepage.ca/fr/search/get-list/property/53785/1/",
   "count": 20,
   "listings": [
@@ -184,24 +184,6 @@
       "alt": "1328 Rue Principale Prévost, QC J0R 1T0"
     },
     {
-      "id": "28030388",
-      "url": "https://www.royallepage.ca/fr/property/quebec/prevost/830z-832z-rue-du-boise-de-la-riviere/28030388/mls25962523/",
-      "mls": "25962523",
-      "sold": false,
-      "price_label": "649 000 $",
-      "type": "Investissement",
-      "bedrooms": "",
-      "bathrooms": "",
-      "address": "830Z - 832Z Rue du Boisé-de-la-Rivière",
-      "city": "Prévost",
-      "postal": "J0R 1T0",
-      "photo_remote": "https://rlp.jumplisting.com/photos/28/3/3/88/28030388_0_med.jpg",
-      "photo": "assets/images/listings/28030388.jpg",
-      "lat": 45.858283,
-      "lng": -74.072968,
-      "alt": "830Z - 832Z Rue du Boisé-de-la-Rivière Prévost, QC J0R 1T0"
-    },
-    {
       "id": "28027638",
       "url": "https://www.royallepage.ca/fr/property/quebec/prevost/830-832-rue-du-boise-de-la-riviere/28027638/mls21972864/",
       "mls": "21972864",
@@ -218,6 +200,24 @@
       "lat": 45.858283,
       "lng": -74.072968,
       "alt": "830 - 832 Rue du Boisé-de-la-Rivière Prévost, QC J0R 1T0"
+    },
+    {
+      "id": "28030388",
+      "url": "https://www.royallepage.ca/fr/property/quebec/prevost/830z-832z-rue-du-boise-de-la-riviere/28030388/mls25962523/",
+      "mls": "25962523",
+      "sold": false,
+      "price_label": "649 000 $",
+      "type": "Investissement",
+      "bedrooms": "",
+      "bathrooms": "",
+      "address": "830Z - 832Z Rue du Boisé-de-la-Rivière",
+      "city": "Prévost",
+      "postal": "J0R 1T0",
+      "photo_remote": "https://rlp.jumplisting.com/photos/28/3/3/88/28030388_0_med.jpg",
+      "photo": "assets/images/listings/28030388.jpg",
+      "lat": 45.858283,
+      "lng": -74.072968,
+      "alt": "830Z - 832Z Rue du Boisé-de-la-Rivière Prévost, QC J0R 1T0"
     },
     {
       "id": "28020384",
