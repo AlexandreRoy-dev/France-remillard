@@ -66,9 +66,14 @@ def hero_cutout() -> None:
     alpha = result.getchannel("A").filter(ImageFilter.GaussianBlur(0.8))
     result.putalpha(alpha)
 
-    result.save(ROOT / "france-remillard-cutout.png", "PNG", optimize=True)
     result.save(ROOT / "france-remillard-cutout.webp", "WEBP", quality=90, method=6)
-    print("cutout", result.size)
+
+    # PNG is only the no-WebP fallback, so it ships at half the pixels.
+    fallback = result.resize(
+        (512, round(512 * result.height / result.width)), Image.Resampling.LANCZOS
+    )
+    fallback.save(ROOT / "france-remillard-cutout.png", "PNG", optimize=True, compress_level=9)
+    print("cutout", result.size, "fallback", fallback.size)
 
 
 def flat_portraits() -> None:
