@@ -1,4 +1,4 @@
-const AGENT_EMAIL = "fremillard@royallepage.ca";
+const AGENT_EMAIL = "franceremillard@gmail.com";
 
 function setError(field, message) {
   const wrap = field.closest(".field");

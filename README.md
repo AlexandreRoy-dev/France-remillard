@@ -1,6 +1,6 @@
 # France Rémillard
 
-Site marketing statique pour France Rémillard, courtière immobilière chez Royal LePage Humania (Saint-Jérôme).
+Site marketing statique pour France Rémillard, courtière immobilière résidentielle et commerciale chez Royal LePage Humania (Saint-Jérôme).
 
 ## Lancer en local
 
@@ -36,7 +36,7 @@ Ne pas retirer les commentaires `SYNC:LISTINGS` dans `index.html`: le script s'a
 
 - Couleurs officielles Royal LePage: rouge `#EA002A`, noir, blanc
 - Photo officielle téléchargée depuis son profil Royal LePage
-- Formulaire v1: `mailto:fremillard@royallepage.ca` (aucun CRM branché)
+- Formulaire v1: `mailto:franceremillard@gmail.com` (aucun CRM branché)
 - Inscriptions: copies statiques synchronisées depuis Royal LePage, avec lien vers la fiche officielle
 - Mentions OACIQ et nom du courtage dans le pied de page
 - Distinctions officielles Royal LePage (médailles téléchargées de son profil)

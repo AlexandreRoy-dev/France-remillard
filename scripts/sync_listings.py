@@ -215,7 +215,7 @@ def chrome(base: str, current: str) -> tuple[str, str]:
 {nav_html(base, current)}
         </nav>
         <div class="header-actions">
-          <a class="btn btn--primary" href="tel:+15143473786">514 347-3786</a>
+          <a class="btn btn--primary btn--phone" href="tel:+15143473786">514 347-3786</a>
           <button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="menu-mobile" aria-label="Ouvrir le menu">
             <span></span><span></span><span></span>
           </button>
@@ -227,8 +227,12 @@ def chrome(base: str, current: str) -> tuple[str, str]:
         <div>
           <img class="brand__logo footer-logo" src="{base}assets/images/logo-royal-lepage.png" alt="Royal LePage" width="180" height="66" />
           <p class="footer-note">
-            France Rémillard, courtière immobilière, Royal LePage Humania. Titulaire d'un
-            permis de l'OACIQ. 401, rue Laviolette, Saint-Jérôme (Québec) J7Y 2T2.
+            France Rémillard, courtière immobilière résidentielle et commerciale, Royal LePage
+            Humania. Titulaire d'un permis de l'OACIQ. 401, rue Laviolette, Saint-Jérôme
+            (Québec) J7Y 2T2.
+          </p>
+          <p class="footer-phone">
+            <a href="tel:+15143473786">514&nbsp;347-3786</a>
           </p>
         </div>
         <div>
@@ -237,7 +241,7 @@ def chrome(base: str, current: str) -> tuple[str, str]:
             <li><a href="https://www.royallepage.ca/fr/agent/quebec/saint-jerome/france-remillard/53785/" rel="noopener noreferrer">Profil Royal LePage</a></li>
             <li><a href="https://www.centris.ca/fr/courtier-immobilier~france-remillard~royal-lepage-humania/d4337" rel="noopener noreferrer">Inscriptions Centris</a></li>
             <li><a href="https://www.oaciq.com/" rel="noopener noreferrer">OACIQ</a></li>
-            <li><a href="tel:+15143473786">514 347-3786</a></li>
+            <li><a href="mailto:franceremillard@gmail.com">franceremillard@gmail.com</a></li>
           </ul>
           <p class="footer-note">
             Les inscriptions sont synchronisées depuis Royal LePage. Les renseignements du
