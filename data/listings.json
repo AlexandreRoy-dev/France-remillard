@@ -1,7 +1,7 @@
 {
-  "synced_at": "2026-09-15T04:57:46Z",
+  "synced_at": "2026-09-15T17:02:43Z",
   "source": "https://www.royallepage.ca/fr/search/get-list/property/53785/1/",
-  "count": 20,
+  "count": 21,
   "listings": [
     {
       "id": "29194090",
@@ -17,8 +17,8 @@
       "postal": "J0T 1L0",
       "photo_remote": "https://rlp.jumplisting.com/photos/29/19/40/90/29194090_0_med.jpg",
       "photo": "assets/images/listings/29194090.jpg",
-      "lat": 46.025356,
-      "lng": -74.06709,
+      "lat": null,
+      "lng": null,
       "alt": "227 Ch. de Ste-Marguerite Sainte-Marguerite-Du-Lac-Masson, QC J0T 1L0"
     },
     {
@@ -35,8 +35,8 @@
       "postal": "J5J 2S8",
       "photo_remote": "https://rlp.jumplisting.com/photos/29/10/31/78/29103178_0_med.jpg",
       "photo": "assets/images/listings/29103178.jpg",
-      "lat": 45.840501,
-      "lng": -74.019364,
+      "lat": null,
+      "lng": null,
       "alt": "2084 Ch. de Val-des-Lacs Sainte-Sophie, QC J5J 2S8"
     },
     {
@@ -53,8 +53,8 @@
       "postal": "J0R 1T0",
       "photo_remote": "https://rlp.jumplisting.com/photos/29/2/61/40/29026140_0_med.jpg",
       "photo": "assets/images/listings/29026140.jpg",
-      "lat": 45.851086,
-      "lng": -74.090894,
+      "lat": null,
+      "lng": null,
       "alt": "638 Rue du Joli-Bois Prévost, QC J0R 1T0"
     },
     {
@@ -71,8 +71,8 @@
       "postal": "J6Z 1Y6",
       "photo_remote": "https://rlp.jumplisting.com/photos/29/1/62/34/29016234_0_med.jpg",
       "photo": "assets/images/listings/29016234.jpg",
-      "lat": 45.6723912,
-      "lng": -73.75303098,
+      "lat": null,
+      "lng": null,
       "alt": "335 - 335A Boul. Adolphe-Chapleau Bois-Des-Filion, QC J6Z 1Y6"
     },
     {
@@ -89,8 +89,8 @@
       "postal": "J6Z 1Y6",
       "photo_remote": "https://rlp.jumplisting.com/photos/29/1/71/0/29017100_0_med.jpg",
       "photo": "assets/images/listings/29017100.jpg",
-      "lat": 45.6723912,
-      "lng": -73.75303098,
+      "lat": null,
+      "lng": null,
       "alt": "335Z - 335AZ Boul. Adolphe-Chapleau Bois-Des-Filion, QC J6Z 1Y6"
     },
     {
@@ -107,8 +107,8 @@
       "postal": "J0R 1T0",
       "photo_remote": "https://rlp.jumplisting.com/photos/28/87/37/1/28873701_0_med.jpg",
       "photo": "assets/images/listings/28873701.jpg",
-      "lat": 45.8740057,
-      "lng": -74.07536534,
+      "lat": null,
+      "lng": null,
       "alt": "816 Rue de la Station Prévost, QC J0R 1T0"
     },
     {
@@ -125,8 +125,8 @@
       "postal": "J0V 1X0",
       "photo_remote": "https://rlp.jumplisting.com/photos/28/63/36/77/28633677_0_med.jpg",
       "photo": "assets/images/listings/28633677.jpg",
-      "lat": 45.57893902,
-      "lng": -74.25728825,
+      "lat": null,
+      "lng": null,
       "alt": "2510 Ch. de la Rivière-Rouge N. Saint-André-D'Argenteuil, QC J0V 1X0"
     },
     {
@@ -143,8 +143,8 @@
       "postal": "J8A 2Y6",
       "photo_remote": "https://rlp.jumplisting.com/photos/28/57/17/32/28571732_0_med.jpg",
       "photo": "assets/images/listings/28571732.jpg",
-      "lat": 45.946938,
-      "lng": -73.988975,
+      "lat": null,
+      "lng": null,
       "alt": "69 365e Avenue Saint-Hippolyte, QC J8A 2Y6"
     },
     {
@@ -161,8 +161,8 @@
       "postal": "J0R 1T0",
       "photo_remote": "https://rlp.jumplisting.com/photos/28/49/37/50/28493750_0_med.jpg",
       "photo": "assets/images/listings/28493750.jpg",
-      "lat": 45.894709,
-      "lng": -74.05402441,
+      "lat": null,
+      "lng": null,
       "alt": "Crois. Henri-Renaud Prévost, QC J0R 1T0"
     },
     {
@@ -179,8 +179,8 @@
       "postal": "J0R 1T0",
       "photo_remote": "https://rlp.jumplisting.com/photos/28/36/60/6/28366006_0_med.jpg",
       "photo": "assets/images/listings/28366006.jpg",
-      "lat": 45.875261,
-      "lng": -74.081805,
+      "lat": null,
+      "lng": null,
       "alt": "1328Z Rue Principale Prévost, QC J0R 1T0"
     },
     {
@@ -197,9 +197,27 @@
       "postal": "J0R 1T0",
       "photo_remote": "https://rlp.jumplisting.com/photos/28/36/44/93/28364493_0_med.jpg",
       "photo": "assets/images/listings/28364493.jpg",
-      "lat": 45.875261,
-      "lng": -74.081805,
+      "lat": null,
+      "lng": null,
       "alt": "1328 Rue Principale Prévost, QC J0R 1T0"
+    },
+    {
+      "id": "28027638",
+      "url": "https://www.royallepage.ca/fr/property/quebec/prevost/830-832-rue-du-boise-de-la-riviere/28027638/mls21972864/",
+      "mls": "21972864",
+      "sold": false,
+      "price_label": "649 000 $",
+      "type": "Maison",
+      "bedrooms": "2",
+      "bathrooms": "1+0",
+      "address": "830 - 832 Rue du Boisé-de-la-Rivière",
+      "city": "Prévost",
+      "postal": "J0R 1T0",
+      "photo_remote": "https://rlp.jumplisting.com/photos/28/2/76/38/28027638_0_med.jpg",
+      "photo": "assets/images/listings/28027638.jpg",
+      "lat": null,
+      "lng": null,
+      "alt": "830 - 832 Rue du Boisé-de-la-Rivière Prévost, QC J0R 1T0"
     },
     {
       "id": "28030388",
@@ -215,8 +233,8 @@
       "postal": "J0R 1T0",
       "photo_remote": "https://rlp.jumplisting.com/photos/28/3/3/88/28030388_0_med.jpg",
       "photo": "assets/images/listings/28030388.jpg",
-      "lat": 45.858283,
-      "lng": -74.072968,
+      "lat": null,
+      "lng": null,
       "alt": "830Z - 832Z Rue du Boisé-de-la-Rivière Prévost, QC J0R 1T0"
     },
     {
@@ -233,8 +251,8 @@
       "postal": "J0K 2T0",
       "photo_remote": "https://rlp.jumplisting.com/photos/28/2/3/84/28020384_0_med.jpg",
       "photo": "assets/images/listings/28020384.jpg",
-      "lat": 45.924033,
-      "lng": -73.746536,
+      "lat": null,
+      "lng": null,
       "alt": "1547 1re avenue du Lac-Lemenn Sainte-Julienne, QC J0K 2T0"
     },
     {
@@ -251,8 +269,8 @@
       "postal": "J5M 1Y9",
       "photo_remote": "https://rlp.jumplisting.com/photos/28/0/30/72/28003072_0_med.jpg",
       "photo": "assets/images/listings/28003072.jpg",
-      "lat": 45.834968,
-      "lng": -73.820531,
+      "lat": null,
+      "lng": null,
       "alt": "967 Rue Lapalme Saint-Lin/Laurentides, QC J5M 1Y9"
     },
     {
@@ -269,8 +287,8 @@
       "postal": "H1W 1G8",
       "photo_remote": "https://rlp.jumplisting.com/photos/27/64/93/26/27649326_0_med.jpg",
       "photo": "assets/images/listings/27649326.jpg",
-      "lat": 45.544149,
-      "lng": -73.55338,
+      "lat": null,
+      "lng": null,
       "alt": "3283 - 3289 Rue Hochelaga Montréal (Mercier/Hochelaga-Maisonneuve), QC H1W 1G8"
     },
     {
@@ -287,8 +305,8 @@
       "postal": "J0R 1R2",
       "photo_remote": "https://rlp.jumplisting.com/photos/27/62/3/30/27620330_0_med.jpg",
       "photo": "assets/images/listings/27620330.jpg",
-      "lat": 45.88058229,
-      "lng": -74.1967532,
+      "lat": null,
+      "lng": null,
       "alt": "Ch. du Belvédère Saint-Sauveur, QC J0R 1R2"
     },
     {
@@ -305,8 +323,8 @@
       "postal": "J0R 1R2",
       "photo_remote": "https://rlp.jumplisting.com/photos/27/62/3/31/27620331_0_med.jpg",
       "photo": "assets/images/listings/27620331.jpg",
-      "lat": 45.87772143,
-      "lng": -74.19260354,
+      "lat": null,
+      "lng": null,
       "alt": "2e rue Mont-Suisse Saint-Sauveur, QC J0R 1R2"
     },
     {
@@ -323,8 +341,8 @@
       "postal": "J5J 0C2",
       "photo_remote": "https://rlp.jumplisting.com/photos/27/52/47/85/27524785_0_med.jpg",
       "photo": "assets/images/listings/27524785.jpg",
-      "lat": 45.861972,
-      "lng": -73.90409,
+      "lat": null,
+      "lng": null,
       "alt": "144 Rue Francis Sainte-Sophie, QC J5J 0C2"
     },
     {
@@ -341,8 +359,8 @@
       "postal": "J8A 1A3",
       "photo_remote": "https://rlp.jumplisting.com/photos/27/37/48/26/27374826_0_med.jpg",
       "photo": "assets/images/listings/27374826.jpg",
-      "lat": 45.85094,
-      "lng": -74.026826,
+      "lat": null,
+      "lng": null,
       "alt": "27 Rue de l'Érablière O. Saint-Hippolyte, QC J8A 1A3"
     },
     {
@@ -359,8 +377,8 @@
       "postal": "J5L 1S2",
       "photo_remote": "https://rlp.jumplisting.com/photos/27/21/24/6/27212406_0_med.jpg",
       "photo": "assets/images/listings/27212406.jpg",
-      "lat": 45.80690717,
-      "lng": -74.05256043,
+      "lat": null,
+      "lng": null,
       "alt": "331 Boul. Jérobelle Saint-Jérôme, QC J5L 1S2"
     }
   ]
