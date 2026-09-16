@@ -1,5 +1,5 @@
 {
-  "synced_at": "2026-09-15T17:02:43Z",
+  "synced_at": "2026-09-16T04:53:27Z",
   "source": "https://www.royallepage.ca/fr/search/get-list/property/53785/1/",
   "count": 21,
   "listings": [
@@ -116,7 +116,7 @@
       "url": "https://www.royallepage.ca/fr/property/quebec/saint-andre-dargenteuil/2510-ch-de-la-riviere-rouge-n/28633677/mls13886567/",
       "mls": "13886567",
       "sold": false,
-      "price_label": "625 000 $",
+      "price_label": "574 900 $",
       "type": "Fermette",
       "bedrooms": "2",
       "bathrooms": "1+0",
@@ -202,24 +202,6 @@
       "alt": "1328 Rue Principale Prévost, QC J0R 1T0"
     },
     {
-      "id": "28027638",
-      "url": "https://www.royallepage.ca/fr/property/quebec/prevost/830-832-rue-du-boise-de-la-riviere/28027638/mls21972864/",
-      "mls": "21972864",
-      "sold": false,
-      "price_label": "649 000 $",
-      "type": "Maison",
-      "bedrooms": "2",
-      "bathrooms": "1+0",
-      "address": "830 - 832 Rue du Boisé-de-la-Rivière",
-      "city": "Prévost",
-      "postal": "J0R 1T0",
-      "photo_remote": "https://rlp.jumplisting.com/photos/28/2/76/38/28027638_0_med.jpg",
-      "photo": "assets/images/listings/28027638.jpg",
-      "lat": null,
-      "lng": null,
-      "alt": "830 - 832 Rue du Boisé-de-la-Rivière Prévost, QC J0R 1T0"
-    },
-    {
       "id": "28030388",
       "url": "https://www.royallepage.ca/fr/property/quebec/prevost/830z-832z-rue-du-boise-de-la-riviere/28030388/mls25962523/",
       "mls": "25962523",
@@ -236,6 +218,24 @@
       "lat": null,
       "lng": null,
       "alt": "830Z - 832Z Rue du Boisé-de-la-Rivière Prévost, QC J0R 1T0"
+    },
+    {
+      "id": "28027638",
+      "url": "https://www.royallepage.ca/fr/property/quebec/prevost/830-832-rue-du-boise-de-la-riviere/28027638/mls21972864/",
+      "mls": "21972864",
+      "sold": false,
+      "price_label": "649 000 $",
+      "type": "Maison",
+      "bedrooms": "2",
+      "bathrooms": "1+0",
+      "address": "830 - 832 Rue du Boisé-de-la-Rivière",
+      "city": "Prévost",
+      "postal": "J0R 1T0",
+      "photo_remote": "https://rlp.jumplisting.com/photos/28/2/76/38/28027638_0_med.jpg",
+      "photo": "assets/images/listings/28027638.jpg",
+      "lat": null,
+      "lng": null,
+      "alt": "830 - 832 Rue du Boisé-de-la-Rivière Prévost, QC J0R 1T0"
     },
     {
       "id": "28020384",
