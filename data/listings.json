@@ -1,7 +1,7 @@
 {
-  "synced_at": "2026-09-16T11:40:14Z",
+  "synced_at": "2026-09-16T17:01:10Z",
   "source": "https://www.royallepage.ca/fr/search/get-list/property/53785/1/",
-  "count": 21,
+  "count": 20,
   "listings": [
     {
       "id": "29194090",
@@ -146,24 +146,6 @@
       "lat": null,
       "lng": null,
       "alt": "69 365e Avenue Saint-Hippolyte, QC J8A 2Y6"
-    },
-    {
-      "id": "28493750",
-      "url": "https://www.royallepage.ca/fr/property/quebec/prevost/crois-henri-renaud/28493750/mls19896337/",
-      "mls": "19896337",
-      "sold": false,
-      "price_label": "390 000 $",
-      "type": "Terrain",
-      "bedrooms": "",
-      "bathrooms": "",
-      "address": "Crois. Henri-Renaud",
-      "city": "Prévost",
-      "postal": "J0R 1T0",
-      "photo_remote": "https://rlp.jumplisting.com/photos/28/49/37/50/28493750_0_med.jpg",
-      "photo": "assets/images/listings/28493750.jpg",
-      "lat": null,
-      "lng": null,
-      "alt": "Crois. Henri-Renaud Prévost, QC J0R 1T0"
     },
     {
       "id": "28366006",
