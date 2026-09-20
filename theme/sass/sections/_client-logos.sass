@@ -1,0 +1,19 @@
+/*******************************************************/
+/******************* ## Client Logos *******************/
+/*******************************************************/
+.client-logo-item
+    position: relative
+    text-align: center
+    margin-bottom: 30px
+    padding-right: 25px
+    +gapTB(padding, 25px)
+    a
+        opacity: 0.3
+        &:hover
+            opacity: 1
+    &:after
+        content: ''
+        +poRT(10px, 5%)
+        +size(1px, 110%)
+        transform: rotate(7deg)
+        background: rgba(217, 223, 231, 1)

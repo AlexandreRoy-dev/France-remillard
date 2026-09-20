@@ -1,0 +1,33 @@
+/*******************************************************/
+/******************** ## What We Do ********************/
+/*******************************************************/
+.what-we-do-area
+    .section-title
+        max-width: 560px
+        
+.what-we-do-item
+    padding: 40px
+    transition: 0.5s
+    position: relative
+    margin-bottom: 40px
+    height: calc(100% - 40px)
+    border: 1px solid $border-color
+    .icon
+        font-size: 65px
+        margin-bottom: 22px
+        color: $primary-color
+    h6
+        margin-bottom: 15px
+    p
+        font-size: 16px
+    &:after
+        content: ''
+        +poRB(-1px, 0)
+        transition: 0.5s
+        +size(100%, 40px)
+        background: #D9DFE7
+        clip-path: polygon(100% 0, 0% 100%, 100% 100%)
+    &:hover
+        border-color: $primary-color
+        &:after
+            background: $primary-color

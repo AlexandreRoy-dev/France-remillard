@@ -26,8 +26,35 @@ INDEX_HTML = ROOT / "index.html"
 SITEMAP = ROOT / "sitemap.xml"
 MARKER_START = "<!-- SYNC:LISTINGS -->"
 MARKER_END = "<!-- /SYNC:LISTINGS -->"
+PHOTO_CACHE = "hd"
+THUMB_SUFFIXES = ("_med.jpg", "_lg.jpg", "_sml.jpg", "_sm.jpg")
+MIN_PHOTO_BYTES = 80_000
 
 CTX = ssl.create_default_context()
+
+
+def upgrade_photo_url(url: str) -> str:
+    """Card feed serves _med thumbs (~250px). The unsuffixed file is the 1920px original."""
+    if not url:
+        return url
+    for suffix in THUMB_SUFFIXES:
+        if url.endswith(suffix):
+            return url[: -len(suffix)] + ".jpg"
+    return url
+
+
+def photo_candidates(url: str) -> list[str]:
+    candidates = []
+    original = upgrade_photo_url(url)
+    if original:
+        candidates.append(original)
+    if url.endswith("_med.jpg"):
+        large = url[: -len("_med.jpg")] + "_lg.jpg"
+        if large not in candidates:
+            candidates.append(large)
+    if url and url not in candidates:
+        candidates.append(url)
+    return candidates
 
 
 def fetch(url: str) -> bytes:
@@ -115,6 +142,7 @@ def parse_card(chunk: str) -> dict | None:
         photo = photo_match.group(1)
         if photo.startswith("//"):
             photo = "https:" + photo
+        photo = upgrade_photo_url(photo)
 
     return {
         "id": listing_id.group(1),
@@ -168,18 +196,33 @@ def fetch_all_listings() -> list[dict]:
     return all_items
 
 
-def download_photos(listings: list[dict]) -> None:
+def photo_is_small(path: Path) -> bool:
+    return not path.is_file() or path.stat().st_size < MIN_PHOTO_BYTES
+
+
+def download_photos(listings: list[dict], force: bool = False) -> None:
     PHOTO_DIR.mkdir(parents=True, exist_ok=True)
     keep = set()
     for item in listings:
         dest = ROOT / item["photo"]
         keep.add(dest.name)
-        if not item.get("photo_remote"):
+        remote = item.get("photo_remote") or ""
+        if not remote:
             continue
-        try:
-            dest.write_bytes(fetch(item["photo_remote"]))
-        except urllib.error.URLError as exc:
-            print(f"photo failed {item['id']}: {exc}", file=sys.stderr)
+        if not force and not photo_is_small(dest) and remote == upgrade_photo_url(remote):
+            continue
+        last_error = None
+        saved = False
+        for candidate in photo_candidates(remote):
+            try:
+                dest.write_bytes(fetch(candidate))
+                item["photo_remote"] = candidate
+                saved = True
+                break
+            except urllib.error.URLError as exc:
+                last_error = exc
+        if not saved:
+            print(f"photo failed {item['id']}: {last_error}", file=sys.stderr)
     for stale in PHOTO_DIR.glob("*.jpg"):
         if stale.name not in keep:
             stale.unlink()
@@ -244,8 +287,7 @@ def chrome(base: str, current: str) -> tuple[str, str]:
             <li><a href="mailto:franceremillard@gmail.com">franceremillard@gmail.com</a></li>
           </ul>
           <p class="footer-note">
-            Les inscriptions sont synchronisées depuis Royal LePage. Les renseignements du
-            formulaire servent uniquement à vous répondre.
+            Les renseignements du formulaire servent uniquement à vous répondre.
           </p>
         </div>
       </div>
@@ -254,16 +296,77 @@ def chrome(base: str, current: str) -> tuple[str, str]:
     return header, footer
 
 
+SECONDARY_ADDR = re.compile(r"(?i)\d+Z\b")
+RESIDENTIAL_TYPES = {"Maison", "Fermette", "Copropriété"}
+
+
+def clean_baths(baths: str) -> str:
+    return baths[:-2] if baths.endswith("+0") else baths
+
+
 def facts(item: dict) -> str:
     bits = [item["type"]] if item.get("type") else []
     if item.get("bedrooms"):
         bits.append(f"{item['bedrooms']} ch.")
-    baths = item.get("bathrooms") or ""
-    if baths.endswith("+0"):
-        baths = baths[:-2]
+    baths = clean_baths(item.get("bathrooms") or "")
     if baths:
         bits.append(f"{baths} sdb")
     return ", ".join(bits)
+
+
+def display_price(item: dict) -> str:
+    if item.get("sold"):
+        return "Vendue"
+    price = item.get("price_label") or "Sur demande"
+    return re.sub(r"\s+\+TPS/TVQ\s*\$", " + TPS/TVQ", price)
+
+
+def price_value(item: dict) -> int:
+    digits = re.sub(r"[^\d]", "", item.get("price_label") or "")
+    return int(digits) if digits else 0
+
+
+def address_stem(address: str) -> str:
+    cleaned = SECONDARY_ADDR.sub(lambda match: match.group(0)[:-1], address or "")
+    return re.sub(r"\s+", " ", cleaned).strip().lower()
+
+
+def pick_featured(active: list[dict], limit: int = 3) -> list[dict]:
+    seen: set[str] = set()
+    preferred: list[dict] = []
+    others: list[dict] = []
+    for item in active:
+        address = item.get("address") or ""
+        if SECONDARY_ADDR.search(address):
+            continue
+        stem = address_stem(address)
+        if not stem or stem in seen:
+            continue
+        seen.add(stem)
+        if not has_local_photo(item):
+            continue
+        if item.get("type") in RESIDENTIAL_TYPES and item.get("bedrooms"):
+            preferred.append(item)
+        else:
+            others.append(item)
+    preferred.sort(key=price_value, reverse=True)
+    return (preferred + others)[:limit]
+
+
+def specs_html(item: dict) -> str:
+    parts = []
+    if item.get("bedrooms"):
+        parts.append(
+            f'<li><i class="fal fa-bed" aria-hidden="true"></i> {escape(item["bedrooms"])} ch.</li>'
+        )
+    baths = clean_baths(item.get("bathrooms") or "")
+    if baths:
+        parts.append(f'<li><i class="fal fa-bath" aria-hidden="true"></i> {escape(baths)} sdb</li>')
+    if item.get("type") and not parts:
+        parts.append(f"<li>{escape(item['type'])}</li>")
+    if not parts:
+        return ""
+    return f'<ul class="listing-card__specs">{"".join(parts)}</ul>'
 
 
 def has_local_photo(item: dict) -> bool:
@@ -272,24 +375,30 @@ def has_local_photo(item: dict) -> bool:
 
 
 def card_html(item: dict, photo_prefix: str, href: str, delay: float = 0) -> str:
-    price = item["price_label"] or "Sur demande"
-    if item["sold"]:
-        price = f"Vendue, {price}" if price not in {"Vendue", ""} else "Vendue"
+    price = display_price(item)
+    badge = "Vendue" if item.get("sold") else (item.get("type") or "Propriété")
     alt = escape(item.get("alt") or item["address"])
-    delay_attr = f' data-animation-delay-in-seconds="{delay:g}"' if delay else ""
+    wow_delay = 2 + min(round(delay / 0.3) if delay else 0, 2)
+    sold_class = " listing-card--sold" if item.get("sold") else ""
     if has_local_photo(item):
         media = f"""                <div class="listing-card__media">
-                  <img src="{photo_prefix}{item['photo']}" alt="{alt}" width="800" height="600" loading="lazy" />
+                  <img src="{photo_prefix}{item['photo']}?v={PHOTO_CACHE}" alt="{alt}" width="800" height="500" loading="lazy" />
+                  <span class="listing-card__type">{escape(badge)}</span>
+                  <p class="listing-card__price">{escape(price)}</p>
                 </div>"""
     else:
-        media = '                <div class="listing-card__media listing-card__media--empty" aria-hidden="true"></div>'
-    return f"""            <article class="listing-card animIn"{delay_attr}>
+        media = f"""                <div class="listing-card__media listing-card__media--empty">
+                  <span class="listing-card__type">{escape(badge)}</span>
+                  <p class="listing-card__price">{escape(price)}</p>
+                </div>"""
+    return f"""            <article class="listing-card{sold_class} wow fadeInUp delay-0-{wow_delay}s">
               <a href="{href}">
 {media}
-                <p class="listing-card__price">{escape(price)}</p>
-                <h3>{escape(item['address'])}</h3>
-                <p class="listing-card__meta">{escape(item['city'])}</p>
-                <p class="listing-card__meta">{escape(facts(item))}</p>
+                <div class="listing-card__body">
+                  <h3>{escape(item['address'])}</h3>
+                  <p class="listing-card__city"><i class="fal fa-map-marker-alt" aria-hidden="true"></i> {escape(item['city'])}</p>
+                  {specs_html(item)}
+                </div>
               </a>
             </article>"""
 
@@ -304,7 +413,7 @@ def page_shell(
     og_image: str | None = None,
 ) -> str:
     header, footer = chrome(base, current)
-    image = og_image or f"{base}assets/images/france-remillard.jpg"
+    image = og_image or f"{base}assets/images/france-remillard.png"
     return f"""<!DOCTYPE html>
 <html lang="fr-CA">
   <head>
@@ -317,6 +426,7 @@ def page_shell(
     <meta property="og:title" content="{escape(title)}" />
     <meta property="og:description" content="{escape(description)}" />
     <meta property="og:image" content="{escape(image)}" />
+    <link rel="stylesheet" href="{base}theme/vendor/fontawesome-5.14.0.min.css" />
     <link rel="stylesheet" href="{base}css/styles.css" />
   </head>
   <body>
@@ -367,7 +477,7 @@ def write_inscriptions_index(active: list[dict], sold: list[dict]) -> None:
     body = f"""      <section class="section">
         <div class="container">
           <h1>Inscriptions</h1>
-          <p class="section__intro">Propriétés à vendre avec France Rémillard, Royal LePage Humania. Mis à jour automatiquement depuis Royal LePage.</p>
+          <p class="section__intro">Propriétés à vendre avec France Rémillard, Royal LePage Humania.</p>
 {active_html}
 {sold_block}
         </div>
@@ -394,7 +504,7 @@ def write_detail_pages(listings: list[dict]) -> None:
         alt = escape(item.get("alt") or item["address"])
         if has_local_photo(item):
             media = f"""          <figure class="listing-detail__media">
-            <img src="../{item['photo']}" alt="{alt}" width="1200" height="900" />
+            <img src="../{item['photo']}?v={PHOTO_CACHE}" alt="{alt}" width="1600" height="1200" />
           </figure>"""
         else:
             media = '          <figure class="listing-detail__media listing-card__media--empty"></figure>'
@@ -410,7 +520,6 @@ def write_detail_pages(listings: list[dict]) -> None:
               <a class="btn btn--primary" href="tel:+15143473786">Appeler</a>
               <a class="btn btn--ghost" href="{escape(item['url'])}" rel="noopener noreferrer">Fiche Royal LePage</a>
             </div>
-            <p class="listing-detail__note">Les photos et le prix proviennent de Royal LePage. Vérifiez la fiche officielle avant une visite.</p>
           </div>
         </div>
       </article>"""
@@ -430,7 +539,7 @@ def write_detail_pages(listings: list[dict]) -> None:
 
 
 def update_home_listings(active: list[dict]) -> None:
-    featured = active[:3]
+    featured = pick_featured(active)
     cards = listing_block(
         featured,
         "",
@@ -438,9 +547,9 @@ def update_home_listings(active: list[dict]) -> None:
         "Aucune inscription active pour le moment.",
     )
     block = f"""{cards}
-          <p class="listings-more">
-            <a class="btn btn--ghost" href="inscriptions/">Toutes les inscriptions</a>
-          </p>"""
+                <p class="text-center mt-50">
+                    <a class="theme-btn" href="inscriptions/">Toutes les inscriptions</a>
+                </p>"""
     text = INDEX_HTML.read_text(encoding="utf-8")
     if MARKER_START not in text or MARKER_END not in text:
         raise RuntimeError("index.html is missing SYNC:LISTINGS markers")
@@ -450,7 +559,7 @@ def update_home_listings(active: list[dict]) -> None:
 
 
 def write_sitemap(listings: list[dict]) -> None:
-    urls = ["./", "./inscriptions/"]
+    urls = ["./", "./inscriptions/", "./secteurs/", "./secteurs/laurentides.html", "./secteurs/laval.html", "./secteurs/couronne-nord.html"]
     urls.extend(f"./inscriptions/{item['id']}.html" for item in listings)
     items = "\n".join(
         f"  <url>\n    <loc>{url}</loc>\n    <changefreq>daily</changefreq>\n  </url>" for url in urls
@@ -501,10 +610,11 @@ def main() -> int:
     synced_at = previous.get("synced_at") if unchanged and previous.get("synced_at") else now
     PHOTO_DIR.mkdir(parents=True, exist_ok=True)
     INSCRIPTIONS_DIR.mkdir(parents=True, exist_ok=True)
-    if unchanged:
-        print("listing data unchanged, refreshing pages only")
+    needs_photos = (not unchanged) or any(photo_is_small(ROOT / item["photo"]) for item in listings)
+    if needs_photos:
+        download_photos(listings, force=not unchanged)
     else:
-        download_photos(listings)
+        print("listing data unchanged, refreshing pages only")
     write_json(listings, synced_at)
     active = [item for item in listings if not item["sold"]]
     sold = [item for item in listings if item["sold"]]

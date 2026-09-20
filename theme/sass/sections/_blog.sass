@@ -1,0 +1,325 @@
+/*******************************************************/
+/******************** ## Blog Area ********************/
+/*******************************************************/
+/* blockquote section */
+.blockquote-area
+    &:before
+        content: ''
+        z-index: -1
+        +poLT(-50%, 28%)
+        +size(200%, 1px)
+        background: #D9DFE7
+        transform: rotate(8deg)
+
+.blockquote-author
+    img
+        max-width: 50%
+        border-radius: 50%
+        
+.blockquote-content
+    .blockquote-text
+        font-size: 30px
+        font-weight: 500
+        line-height: 1.47
+        color: $primary-color
+        +res-bl(md)
+            font-size: 25px
+        +res-bl(sm)
+            font-size: 22px
+        +res-bl(xs)
+            font-size: 20px
+    .name
+        margin-bottom: 20px
+        text-transform: uppercase
+
+.blog-meta
+    display: flex
+    font-size: 14px
+    flex-wrap: wrap
+    padding-top: 10px
+    align-items: center
+    justify-content: flex-end
+    li
+        display: flex
+        line-height: 1
+        margin-top: 10px
+        align-items: center
+        i
+            font-size: 16px
+            margin: -1px 8px 0 0
+            color: $primary-color
+        &:not(:first-child)
+            &:before
+                content: ''
+                +size(1px, 18px)
+                +gapLR(margin, 10px)
+                background: $border-color
+        
+.blog-item
+    margin-bottom: 40px
+    border: 1px solid $border-color
+    height: calc(100% - 40px)
+    .image
+        min-height: 80px
+        clip-path: polygon(100% 0, 100% 100%, 80px calc(100% - 45px), 0 100%, 0% 0%)
+        img
+            width: 100%
+        &.video
+            clip-path: none
+            +overlay($heading-color, 0.3)
+            &:before
+                z-index: 1
+            .video-play-two
+                color: red
+                z-index: 2
+                +abs-middle()
+                font-size: 50px
+    .content
+        padding: 20px 40px 40px
+        +res-bl(xs)
+            +gapLR(padding, 25px)
+        .category
+            font-size: 12px
+            font-weight: 700
+            margin-bottom: 18px
+            display: inline-block
+            color: $primary-color
+            text-transform: uppercase
+            &:before
+                content: '- '
+            &:after
+                content: ' -'
+        h5
+            +res-bl(xs)
+                font-size: 20px
+        .theme-btn.style-five
+            font-size: 14px
+            margin-top: 5px
+            padding: 3px 18px
+        .quote
+            z-index: 1
+            font-weight: 500
+            line-height: 1.55
+            position: relative
+            &:before
+                z-index: -1
+                +poLT(0, -10px)
+                line-height: 1
+                color: #D9DFE7
+                font-size: 55px
+                content: "\f10d"
+                font-weight: 700
+                font-family: 'Font Awesome 5 Pro'
+        .link
+            margin-top: 5px
+            display: inline-block
+            color: $primary-color
+            i
+                font-size: 16px
+                margin-right: 5px
+        
+/* Blog Details */
+.blog-details-content
+    h3
+        line-height: 1.4
+        +res-bl(sm)
+            font-size: 28px
+        +res-bl(ms)
+            font-size: 25px
+    > h4
+        margin-bottom: 15px
+        +res-ab(xs)
+            font-size: 24px
+    p
+        margin-bottom: 15px
+.tag-share
+    flex-wrap: wrap
+    +flexcenter(space-between)
+    .item
+        display: flex
+        align-items: center
+        margin-bottom: 25px
+        h5
+            margin: 0 20px 0 0
+        .tag-coulds
+            a
+                +gapTB(padding, 0)
+                border-radius: 5px
+                text-transform: capitalize
+                
+blockquote
+    z-index: 1
+    padding: 40px
+    position: relative
+    background: #282E35
+    +res-bl(xs)
+        +gapLR(padding, 25px)
+    .quote-text
+        color: white
+        display: block
+        font-size: 35px
+        font-weight: 500
+        line-height: 1.25
+        font-family: initial
+        +res-bl(md)
+            font-size: 30px
+        +res-bl(ms)
+            font-size: 25px
+        +res-bl(xs)
+            font-size: 22px
+    .blockquote-footer
+        color: #D9DFE7
+        display: block
+        margin-top: 10px
+        text-align: right
+        margin-bottom: 0
+    &:before
+        z-index: -1
+        font-size: 45px
+        content: "\f10d"
+        font-weight: 600
+        line-height: 33px
+        position: absolute
+        color: $primary-color
+        font-family: "Font Awesome 5 Pro"
+        +res-bl(ms)
+            font-size: 35px
+            margin-right: 15px
+        
+        
+.table-style
+    text-align: center
+    +res-bl(sm)
+        font-size: 16px
+    +res-bl(xs)
+        font-size: 14px
+    tr
+        th
+            color: white
+            padding: 20px 10px
+            background: #282E35
+        td
+            padding: 20px 10px
+            border-right: 1px solid $border-color
+            &:first-child
+                border-left: 1px solid $border-color
+        &:last-child
+            td
+                border-bottom: 1px solid $border-color
+
+
+/* Comments */
+.comment-body
+    padding: 40px
+    border: 1px solid $border-color
+    +res-bl(ms)
+        padding: 25px
+    &:not(:last-child)
+        margin-bottom: 20px
+    .author-date
+        display: flex
+        flex-wrap: wrap
+        align-items: center
+        margin-bottom: 20px
+        img
+            flex: none
+            margin-right: 20px
+        .right
+            +gapTB(margin, 10px)
+            h6
+                margin-bottom: 5px
+                text-transform: uppercase
+            .date
+                font-size: 16px
+    .content
+        +res-bl(xs)
+            font-size: 16px
+    .comment-footer
+        text-align: right
+        .reply
+            font-weight: 700
+            margin-top: 20px
+            text-decoration: underline
+            &:not(:hover)
+                color: $heading-color
+        .spokesman
+            color: white
+            font-size: 16px
+            margin-top: 20px
+            background: $heading-color
+            padding: 2px 20px
+        
+    &.child-comment
+        margin-left: 120px
+        position: relative
+        background: $secondary-color
+        +res-bl(md)
+            margin-left: 50px
+        +res-bl(xs)
+            margin-left: 30px
+        &:before
+            content: ''
+            +poLB(40px, calc(100% + 1px))
+            width: 2px
+            height: 20px
+            background: $primary-color
+                
+.show-more-btn
+    .theme-btn.style-two
+        color: #F47C51
+        font-size: 16px
+        border-color: #F47C51
+        padding: 7px 58px
+            
+.admin-comment
+    .comment-body
+        +res-ab(sm)
+            display: flex
+        .author-date
+            flex: none
+            display: block
+            max-width: 80px
+            margin-right: 20px
+        .name-des
+            display: flex
+            flex-wrap: wrap
+            margin-bottom: 8px
+            h6
+                margin-bottom: 10px
+                text-transform: uppercase
+            span
+                color: #62656A
+                font-weight: 400
+                margin-bottom: 10px
+                
+/* Next Prev Post */
+.prev-post,
+.next-post
+    .arrow
+        font-weight: 700
+        margin-top: 10px
+        align-items: center
+        display: inline-flex
+.prev-post
+    .arrow
+        i
+            margin-right: 15px
+.next-post
+    text-align: right
+    .arrow
+        i
+            margin-left: 15px
+                
+                
+/* Comment Form */
+.comment-form
+    .form-group
+        margin-bottom: 40px
+    .form-checkbox
+        display: flex
+        font-size: 14px
+        input
+            margin: -3px 10px 0 0
+    .theme-btn
+        +res-ab(lg)
+            +gapTB(padding, 17px)

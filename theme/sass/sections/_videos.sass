@@ -1,0 +1,43 @@
+/*******************************************************/
+/****************** ## Videos Area ********************/
+/*******************************************************/ 
+/* Video Play */
+.video-play
+    z-index: 1
+    font-size: 25px
+    position: relative
+    +circle(white, 80px)
+    color: $heading-color
+    display: inline-block
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7)
+    animation: pulse 1.5s infinite cubic-bezier(0.66, 0, 0, 1)
+    +res-bl(ms)
+        +size(65px)
+        font-size: 16px
+        line-height: 65px
+    &:after,
+    &:before
+        z-index: -1
+        content: ''
+        +abs-middle()
+        border-radius: 50%
+        border: 2px solid white
+    &:before
+        +size(125%)
+    &:after
+        +size(150%)
+    
+.tour-video-part
+    &:before
+        content: ''
+        z-index: -1
+        +poRT(50%, 0)
+        +size(50vw, calc(100% + 120px))
+        background: $secondary-color
+        clip-path: polygon(0 0, 100% 15%, 100% 100%, 0 75%)
+        +res-bl(lg)
+            width: 80vw
+    
+.tour-video-part
+    .video-play
+        +abs-middle()

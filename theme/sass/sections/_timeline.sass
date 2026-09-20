@@ -1,0 +1,84 @@
+/*******************************************************/
+/******************* ## Timeline Area ******************/
+/*******************************************************/
+.timeline-images
+    &:before
+        content: ''
+        z-index: -1
+        +poRB(45%, -120px)
+        +size(45vw, 120%)
+        background: $secondary-color
+        clip-path: polygon(0 0, 100% 20%, 100% 100%, 0 75%)
+        +res-bl(lg)
+            width: 55vw
+
+.timeline-item
+    display: flex
+    position: relative
+    align-items: center
+    +gapTB(margin, 20px)
+    padding-left: 100px
+    +res-bl(xl)
+        padding-left: 45px
+    +res-bl(xs)
+        min-height: 80px
+        padding-left: 10px
+    .icon
+        +size(60px)
+        flex: wrap
+        cursor: pointer
+        transition: 0.5s
+        position: relative
+        border-radius: 50%
+        margin-right: 50px
+        border: 1px solid $heading-color
+        +res-bl(xl)
+            margin-right: 25px
+        +res-bl(ms)
+            +size(40px)
+        &:before
+            content: ''
+            +size(138%)
+            opacity: 0
+            +abs-middle()
+            transition: 0.5s
+            border-radius: 50%
+            border: 1px solid $primary-color
+        &:after
+            content: ''
+            +abs-middle()
+            transition: 0.5s
+            +circle($heading-color, 10px)
+    .content
+        cursor: pointer
+        .h5
+            display: block
+            transition: 0.5s
+            +res-bl(ms)
+                font-size: 20px
+        .description
+            +res-bl(ms)
+                font-size: 16px
+    &:before
+        opacity: 0
+        content: "\f177"
+        +poLT(25px, 50%)
+        font-weight: 300
+        font-size: 28px
+        transition: 0.5s
+        color: $primary-color
+        transform: translateY(-50%)
+        font-family: "Font Awesome 5 Pro"
+    &.slick-current
+        .icon
+            &:before
+                opacity: 1
+        .content
+            .h5
+                color: $primary-color
+        &:before
+            left: 0
+            opacity: 1
+            
+.timeline-content .slick-slide
+    display: flex

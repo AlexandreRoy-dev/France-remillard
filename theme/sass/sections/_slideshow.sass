@@ -1,0 +1,24 @@
+/*******************************************************/
+/******************** ## Slideshow ********************/
+/*******************************************************/
+.slideshow-area
+    &:before
+        content: ''
+        z-index: -1
+        +poLB(0)
+        +size(100%)
+        background: $secondary-color
+        clip-path: polygon(0 30%, 100% 0, 100% 70%, 0 100%)
+        +res-bl(xl)
+            clip-path: polygon(0 25%, 100% 0, 100% 60%, 0 100%)
+        +res-bl(lg)
+            clip-path: polygon(0 30%, 100% 0, 100% 50%, 0 100%)
+    
+.navi-pagi-area
+    .paginginfo
+        margin-left: 16px
+        color: $heading-color
+        font-weight: 700
+        display: inline-block
+        &:first-letter
+            color: $primary-color

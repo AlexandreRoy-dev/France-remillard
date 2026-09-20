@@ -9,6 +9,34 @@
     <changefreq>daily</changefreq>
   </url>
   <url>
+    <loc>./secteurs/</loc>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>./secteurs/laurentides.html</loc>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>./secteurs/laval.html</loc>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>./secteurs/couronne-nord.html</loc>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>./inscriptions/29242248.html</loc>
+    <changefreq>daily</changefreq>
+  </url>
+  <url>
+    <loc>./inscriptions/29247126.html</loc>
+    <changefreq>daily</changefreq>
+  </url>
+  <url>
+    <loc>./inscriptions/29194090.html</loc>
+    <changefreq>daily</changefreq>
+  </url>
+  <url>
     <loc>./inscriptions/29103178.html</loc>
     <changefreq>daily</changefreq>
   </url>
@@ -17,11 +45,11 @@
     <changefreq>daily</changefreq>
   </url>
   <url>
-    <loc>./inscriptions/29016234.html</loc>
+    <loc>./inscriptions/29017100.html</loc>
     <changefreq>daily</changefreq>
   </url>
   <url>
-    <loc>./inscriptions/29017100.html</loc>
+    <loc>./inscriptions/29016234.html</loc>
     <changefreq>daily</changefreq>
   </url>
   <url>
@@ -37,10 +65,6 @@
     <changefreq>daily</changefreq>
   </url>
   <url>
-    <loc>./inscriptions/28493750.html</loc>
-    <changefreq>daily</changefreq>
-  </url>
-  <url>
     <loc>./inscriptions/28366006.html</loc>
     <changefreq>daily</changefreq>
   </url>
@@ -49,11 +73,11 @@
     <changefreq>daily</changefreq>
   </url>
   <url>
-    <loc>./inscriptions/28030388.html</loc>
+    <loc>./inscriptions/28027638.html</loc>
     <changefreq>daily</changefreq>
   </url>
   <url>
-    <loc>./inscriptions/28027638.html</loc>
+    <loc>./inscriptions/28030388.html</loc>
     <changefreq>daily</changefreq>
   </url>
   <url>

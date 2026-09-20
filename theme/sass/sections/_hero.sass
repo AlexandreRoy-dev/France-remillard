@@ -1,0 +1,54 @@
+/*******************************************************/
+/******************** ## Hero Area ********************/
+/*******************************************************/
+.hero-area
+    background-size: cover
+    background-position: bottom
+    +res-bl(xl)
+        padding-bottom: 150px
+.hero-content
+    h1
+        color: white
+        margin-bottom: 40px
+        +res-bl(xxl)
+            font-size: 65px
+        +res-bl(xl)
+            font-size: 55px
+        +res-bl(md)
+            font-size: 50px
+            margin-bottom: 20px
+        +res-bl(sm)
+            font-size: 42px
+    .theme-btn
+        margin-top: 20px
+        &.style-two
+            margin-right: 40px
+            +res-bl(sm)
+                margin-right: 20px
+
+.hero-video-btn
+    +res-bl(lg)
+        padding-left: 20px
+        
+        
+.corner-shapes-wrap
+    +overlay($heading-color, 0.3)
+    clip-path: polygon(0 0, 100% 0, 100% 62%, 93% 70%, 93% 80%, 75% 100%, 66% 90%, 25% 100%, 7% 80%, 7% 70%, 0 62%)
+    +res-bl(lg)
+        clip-path: polygon(0 0, 100% 0, 100% calc(100% - 90px), 93% calc(100% - 70px), 93% calc(100% - 45px), 75% 100%, 68% calc(100% - 25px), 25% 100%, 7% calc(100% - 45px), 7% calc(100% - 70px), 0 calc(100% - 90px))
+    .corner-shapes
+        &:after,
+        &:before
+            content: ''
+            bottom: 0
+            +size(37%, 40%)
+            position: absolute
+            background: rgba(255, 255, 255, 0.3)
+            +res-bl(lg)
+                +size(34%, 100px)
+        &:before
+            left: 7%
+            clip-path: polygon(0 0, 0% 100%, 100% 100%)
+        &:after
+            right: 7%
+            clip-path: polygon(100% 0, 0 100%, 100% 100%)

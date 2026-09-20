@@ -1,0 +1,59 @@
+/*******************************************************/
+/******************** ## Main Footer *******************/
+/*******************************************************/
+.footer-top
+    background-size: cover
+    background-position: bottom
+    
+.footer-top-text
+    color: white
+    line-height: 1.44
+    font-size: 24px
+    +res-bl(sm)
+        font-size: 20px
+    a
+        color: white
+        &:hover
+            color: $primary-color
+        small
+            font-size: 0.65em
+            i
+                margin-right: 8px
+    .theme-btn.style-two
+        font-size: 16px
+        padding: 5px 20px
+        
+.main-footer
+    background: #282E35
+    
+.footer-cta-wrap
+    hr
+        opacity: 1
+        background: #4A515B
+
+.footer-cta-inner
+    +container(800px)
+    h5
+        color: white
+        +res-bl(ms)
+            font-size: 20px
+        
+.cta-form
+    +container(640px)
+    +res-ab(ms)
+        display: flex
+    input
+        border: none
+        border-radius: 0
+        padding: 12px 20px
+    button
+        &.style-three
+            flex: none
+            +gapLR(padding, 55px)
+            +res-bl(ms)
+                width: 100%
+            
+.copyright-area
+    font-size: 14px
+    a
+        color: $primary-color

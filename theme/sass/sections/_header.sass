@@ -1,0 +1,236 @@
+/*******************************************************/
+/******************* ## Header style ******************/
+/*******************************************************/
+.main-header
+    position: relative
+    left: 0px
+    top: 0px
+    z-index: 999
+    width: 100%
+    transition: all 500ms ease
+    .header-upper
+        z-index: 5
+        width: 100%
+        position: absolute
+        transition: all 500ms ease
+    .logo-outer
+        flex: none
+        +res-bl(lg)
+            display: none
+    .logo
+        z-index: 9
+        padding: 2px 0
+        position: relative
+    &.menu-absolute
+        .header-upper
+            position: absolute
+    &.fixed-header
+        .header-upper
+            top: 0
+            left: 0
+            position: fixed
+            background: $heading-color
+            animation: sticky  1s
+            box-shadow: 0px 0px 30px 0px rgba(87, 95, 245, .10)
+        .main-menu
+            .navbar-collapse
+                > ul
+                    > li
+                        +res-ab(lg)
+                            +gapTB(padding, 25px)
+    
+.nav-outer
+    +res-bl(lg)
+        width: 100%
+ 
+/** Header Main Menu **/
+.main-menu
+    +res-bl(lg)
+        width: 100%
+    .mobile-logo
+        margin-right: auto
+        +res-bl(sm)
+            max-width: 150px
+    .collapse
+        +res-bl(lg)
+            overflow: auto
+    .navbar-collapse
+        padding: 0px
+        > ul
+            display: flex
+            +res-bl(lg)
+                display: block
+                padding: 25px 0
+                background: #FFFFFF
+                > li:last-child
+                    border-bottom: 1px solid #f3f3f3
+            > li
+                +res-ab(lg)
+                    position: relative
+                    &:before
+                        content: ''
+                        position: absolute
+                        top: 0
+                        left: 50%
+                        width: calc(100% - 40px)
+                        height: 6px
+                        background: $primary-color
+                        transform: translateX(-50%)
+                        opacity: 0
+                        visibility: hidden
+                        transition: .4s
+                        +res-bl(xxl)
+                            width: calc(100% - 20px)
+                &:hover:before
+                    opacity: 1
+                    visibility: visible
+                > a
+                    text-transform: uppercase
+                    +res-ab(lg)
+                        color: white
+        +res-bl(lg)
+            left: 0
+            width: 100%
+            position: absolute
+            max-height: calc(100vh - 80px)
+        li
+            padding: 52px 20px 35px
+            +flexcenter(space-between)
+            +res-bl(xxl)
+                +gapLR(padding, 10px)
+            +res-bl(lg)
+                display: block
+                padding: 0 15px
+                border-top: 1px solid #f3f3f3
+            &.dropdown .dropdown-btn
+                cursor: pointer
+                font-size: 12px
+                margin-left: 5px
+                +res-ab(lg)
+                    color: white
+                +res-bl(lg)
+                    position: absolute
+                    right: 10px
+                    top: 0
+                    width: 50px
+                    height: 43px
+                    border-left: 1px solid #f2f2f2
+                    text-align: center
+                    line-height: 43px
+            a
+                display: block
+                opacity: 1
+                font-size: 16px
+                font-weight: 700
+                position: relative
+                text-transform: capitalize
+                transition: all 500ms ease
+                +res-bl(lg)
+                    padding: 10px 10px
+                    line-height: 22px
+            &.current > a, &.current-menu-item > a
+                font-weight: 500
+            li
+                border-top: 1px solid #f3f3f3
+                a
+                    text-transform: capitalize
+                    &:before
+                        display: none
+            .megamenu
+                position: absolute
+                left: 0px
+                top: 100%
+                width: 100%
+                z-index: 100
+                display: none
+                padding: 20px 0
+                background: #ffffff
+                box-shadow: 2px 2px 5px 1px rgba(0, 0, 0, 0.05), -2px 0px 5px 1px rgba(0, 0, 0, 0.05)
+                +clearfix
+                +res-bl(lg)
+                    position: relative
+                    box-shadow: none
+                    width: 100%
+                    .container
+                        max-width: 100%
+                    .row
+                        margin: 0px
+                ul
+                    display: block
+                    position: relative
+                    top: 0
+                    width: 100%
+                    box-shadow: none
+            ul
+                position: absolute
+                left: inherit
+                top: 100%
+                min-width: 250px
+                z-index: 100
+                display: none
+                background: #ffffff
+                box-shadow: 2px 2px 5px 1px rgba(0, 0, 0, 0.05), -2px 0px 5px 1px rgba(0, 0, 0, 0.05)
+                +res-bl(lg)
+                    position: relative
+                    display: none
+                    width: 100%
+                    box-shadow: none
+                    +clearfix
+                    +res-bl(xs)
+                        min-width: auto
+                li
+                    width: 100%
+                    padding: 10px 20px
+                    +res-bl(lg)
+                        padding: 0 15px
+                    ul
+                        left: 100%
+                        top: 0%
+                        +res-bl(lg)
+                            left: auto
+
+    .navbar-header
+        display: none
+        +res-bl(lg)
+            +flexcenter(start)
+        .navbar-toggle
+            +size(46px)
+            float: right
+            cursor: pointer
+            padding: 5px 14px
+            background: $primary-color
+            .icon-bar
+                background: white
+                height: 2px
+                display: block
+                margin: 4px 0
+                &:nth-child(2)
+                    margin-right: 30%
+                &:nth-child(3)
+                    margin-right: 60%
+
+/* Menu Btns */
+.menu-btns
+    display: flex
+    align-items: center
+    .theme-btn
+        +gapTB(padding, 9px)
+        +res-bl(lg)
+            display: none
+ 
+/* Menu White */
+.main-header.menu-white
+    .nav-search > button
+        color: white
+    .main-menu .navigation > li > a,
+    .main-menu .navigation > .dropdown > .dropdown-btn
+        +res-ab(lg)
+            color: white
+    .main-menu .navigation li li a:hover
+        color: $primary-color
+    .menu-sidebar button .icon-bar,
+    .main-menu .navbar-toggle .icon-bar
+            background: white
+    .toggle-btn
+        --c: conic-gradient(from -90deg, white 90deg, #0000 0)
+        

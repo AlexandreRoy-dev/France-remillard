@@ -1,0 +1,37 @@
+/*******************************************************/
+/******************** ## About Area ********************/
+/*******************************************************/
+.about-logo-icon
+    +poLT(0)
+    z-index: -1
+    max-width: 33%
+    
+/* Introducing Area */
+.introducing-left-image
+    position: relative
+    z-index: 1
+    max-width: max-content
+    &:before
+        content: ''
+        z-index: -1
+        +poRT(20%, 0)
+        +size(50vw, 112%)
+        background: $secondary-color
+        clip-path: polygon(0 0, 100% 12%, 100% 100%, 0 88%)
+        +res-bl(lg)
+            width: 80vw
+    
+.introducing-right-image
+    position: relative
+    z-index: 1
+    &:before
+        content: ''
+        z-index: -1
+        +poLB(40%, 0)
+        +size(40vw, 130%)
+        background: $secondary-color
+        clip-path: polygon(0 0, 100% 25%, 100% 100%, 0 88%)
+        +res-bl(lg)
+            width: 80vw
+    .video-play
+        +abs-middle()

@@ -1,0 +1,115 @@
+/*******************************************************/
+/******************* ## Counter Area *******************/
+/*******************************************************/
+.counter-item
+    padding-top: 25px
+    position: relative
+    padding-bottom: 5px
+    margin-bottom: 30px
+    padding-right: 25px
+    .counter-count
+        line-height: 1
+        font-size: 60px
+        font-weight: 700
+        margin-bottom: 15px
+        display: inline-block
+        color: $primary-color
+        word-break: break-all
+        +res-bl(sm)
+            font-size: 42px
+    &:after
+        content: ''
+        +poRT(10px, 5%)
+        +size(1px, 110%)
+        transform: rotate(-7deg)
+        background: rgba(217, 223, 231, 1)
+    
+// Counter Item Two
+.achievement-area
+    .section-title
+        h2
+            +res-bt(xl, xxl)
+                font-size: 50px
+
+.counter-wrap
+    +res-ab(xl)
+        margin-left: -110px
+
+.counter-item-two
+    display: flex
+    align-items: center
+    padding: 46px 40px
+    background: white
+    margin-bottom: 40px
+    .count-text
+        font-size: 60px
+        font-weight: 700
+        color: $primary-color
+        margin-right: 20px
+        +res-bl(xs)
+            font-size: 45px
+    .counter-title
+        font-weight: 700
+        color: $heading-color
+        
+// Counter Item Three
+.overview-images
+    display: flex
+    position: relative
+    .image-one
+        width: 50%
+        border-right: 20px solid white
+        border-bottom: 20px solid white
+    .image-two
+        width: 75%
+        margin-top: 25%
+        margin-left: -25%
+        position: relative
+        border-top: 20px solid white
+        border-left: 20px solid white
+        .video-play
+            +abs-middle()
+    &:before
+        +poRT(0)
+        content: ''
+        +size(50%, 25%)
+        background: $primary-color
+        clip-path: polygon(0 0, 0 100%, 100% 100%)
+    &:after
+        +poLB(0)
+        content: ''
+        +size(25%, 15%)
+        background: #D9DFE7
+        clip-path: polygon(0 0, 100% 0, 100% 100%)
+
+.counter-three-wrap
+    margin-left: -36%
+    border-top: 20px solid white
+    border-left: 20px solid white
+    +res-bl(xl)
+        border: none
+        margin-left: -70%
+    +res-bl(lg)
+        margin-left: 0
+.counter-item-three
+    padding: 20px
+    background: white
+    text-align: center
+    margin-bottom: 40px
+    height: calc(100% - 40px)
+    border: 1px solid $border-color
+    .count-text
+        display: block
+        line-height: 1
+        font-size: 40px
+        font-weight: 700
+        margin-top: 22px
+        margin-bottom: 15px
+        color: $heading-color
+        &.meter:after
+            content: 'm2'
+            font-size: 0.6em
+            display: inline-block
+            transform: translateY(-13px)
+    .counter-title
+        font-size: 16px

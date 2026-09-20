@@ -34,10 +34,8 @@ Ne pas retirer les commentaires `SYNC:LISTINGS` dans `index.html`: le script s'a
 
 ## Contenu et conformité
 
-- Couleurs officielles Royal LePage: rouge `#EA002A`, noir, blanc
-- Photos de la séance 2026 fournies par France, préparées par `scripts/prepare_portraits.py`
-  (portrait détouré `france-remillard-cutout.*` pour l'accueil, `france-remillard-assise.*`
-  pour Parcours, `france-remillard-fenetre.*` pour Contact)
+- Accueil: structure DAX (rouge Royal LePage `#EA002A`, Red Hat Display) avec les textes, photos et coordonnées de France
+- Portrait fourni par France (`assets/images/france-remillard.png`)
 - Formulaire v1: `mailto:franceremillard@gmail.com` (aucun CRM branché)
 - Inscriptions: copies statiques synchronisées depuis Royal LePage, avec lien vers la fiche officielle
 - Mentions OACIQ et nom du courtage dans le pied de page

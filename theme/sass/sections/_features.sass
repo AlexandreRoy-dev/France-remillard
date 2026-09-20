@@ -1,0 +1,55 @@
+/*******************************************************/
+/****************** ## Features Area *******************/
+/*******************************************************/
+.features-image
+    +overlay($heading-color, 0.3)
+    &:before
+        z-index: 1
+    &:after
+        content: ''
+        z-index: -1
+        +poRB(45%, -120px)
+        +size(45vw, 120%)
+        background: $secondary-color
+        clip-path: polygon(0 0, 100% 20%, 100% 100%, 0 80%)
+        +res-bl(lg)
+            width: 55vw
+    .hotspot-btn
+        z-index: 2
+        position: absolute
+        +circle(white, 20px)
+        box-shadow: 0px 0px 4px rgba(74, 81, 91, 0.05)
+        +res-bl(sm)
+            +size(15px)
+        &:before
+            content: ''
+            +size(42px)
+            +abs-middle()
+            border-radius: 50%
+            border: 1px solid white
+            +res-bl(sm)
+                +size(25px)
+        &:focus,
+        &:hover
+            box-shadow: 0px 0px 0px 4px rgba(241, 91, 38, 1)
+        &:nth-child(2)
+            left: 20%
+            top: 20%
+        &:nth-child(3)
+            left: 25%
+            bottom: 25%
+        &:nth-child(4)
+            left: 50%
+            bottom: 52%
+        &:nth-child(5)
+            right: 30%
+            bottom: 15%
+        &:nth-child(6)
+            right: 10%
+            bottom: 44%
+
+.features-content-item
+    h5
+        margin-bottom: 35px
+    p
+        margin-bottom: 22px

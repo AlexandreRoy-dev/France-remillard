@@ -683,18 +683,14 @@ select {
 }
 
 .listing-card a {
-  display: grid;
+  display: flex;
+  flex-direction: column;
   height: 100%;
   overflow: hidden;
   text-decoration: none;
   color: inherit;
   background: var(--color-white);
-  border-radius: var(--radius-media);
-  transition: box-shadow var(--duration-ui) ease;
-}
-
-.listing-card a:hover {
-  box-shadow: var(--shadow-soft);
+  box-shadow: 0 12px 36px rgba(20, 22, 26, 0.07);
 }
 
 .listing-card a:hover h3 {
@@ -702,47 +698,109 @@ select {
 }
 
 .listing-card__media {
+  position: relative;
   overflow: hidden;
   background: var(--color-tint);
 }
 
 .listing-card__media img {
+  display: block;
   width: 100%;
-  aspect-ratio: 4 / 3;
+  height: auto;
+  max-height: none;
+  aspect-ratio: 16 / 10;
   object-fit: cover;
-  transition: transform var(--duration-ui) ease;
+  object-position: center 20%;
+  transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .listing-card a:hover img {
-  transform: scale(1.04);
+  transform: scale(1.06);
+}
+
+.listing-card__media::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  height: 52%;
+  background: linear-gradient(180deg, transparent, rgba(20, 22, 26, 0.78));
+  pointer-events: none;
 }
 
 .listing-card__media--empty {
-  aspect-ratio: 4 / 3;
-  background: var(--color-tint);
+  min-height: 220px;
+  aspect-ratio: 16 / 10;
 }
 
-.listing-card__price,
-.listing-card h3,
-.listing-card__meta {
-  padding-inline: 1.2rem;
+.listing-card__type {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  z-index: 1;
+  padding: 0.32rem 0.7rem;
+  background: #fff;
+  color: #1a1d21;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.listing-card--sold .listing-card__type {
+  background: var(--color-red);
+  color: #fff;
 }
 
 .listing-card__price {
-  margin-top: var(--space-4);
-  color: var(--color-text-strong);
-  font-weight: 300;
-  font-size: 1.7rem;
-  line-height: 1.2;
-  font-variant-numeric: tabular-nums;
+  position: absolute;
+  left: 18px;
+  right: 18px;
+  bottom: 14px;
+  z-index: 1;
+  margin: 0;
+  color: #fff;
+  font-weight: 700;
+  font-size: 1.55rem;
+  line-height: 1.15;
+}
+
+.listing-card__body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 1.15rem 1.2rem 1.25rem;
 }
 
 .listing-card h3 {
-  margin-top: var(--space-2);
+  margin: 0;
   font-size: var(--text-md);
-  font-weight: 400;
+  font-weight: 600;
   color: var(--color-text-strong);
   overflow-wrap: anywhere;
+}
+
+.listing-card__city {
+  margin: 0;
+  font-size: 0.92rem;
+  color: var(--color-muted);
+}
+
+.listing-card__city i,
+.listing-card__specs i {
+  margin-right: 0.4rem;
+  color: var(--color-red);
+}
+
+.listing-card__specs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.1rem;
+  margin: 0.5rem 0 0;
+  padding: 0.7rem 0 0;
+  border-top: 1px solid var(--color-line);
+  list-style: none;
+  color: var(--color-text);
+  font-size: 0.9rem;
 }
 
 .listing-card__meta {
@@ -750,10 +808,6 @@ select {
   font-size: 0.8rem;
   font-weight: 300;
   color: var(--color-muted);
-}
-
-.listing-card__meta:last-child {
-  padding-bottom: var(--space-4);
 }
 
 .listings-more {

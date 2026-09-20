@@ -1,0 +1,47 @@
+/*******************************************************/
+/****************** ## Schedule Area *******************/
+/*******************************************************/
+.schedule-calendar
+    .fc-h-event
+        background: $primary-color
+        border-color: $primary-color
+
+.schedule-form-image
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 80% 85%, 0 100%)
+    +res-ab(lg)
+        margin-right: -35%
+.schedule-form-part
+    padding: 60px
+    background: white
+    position: relative
+    border: 1px solid $border-color
+    +res-bl(sm)
+        +gapLR(padding, 25px)
+    .theme-btn
+        +res-ab(md)
+            +gapTB(padding, 17px)
+            
+.select-radio-date
+    display: flex
+    flex-wrap: wrap
+    +gapLR(margin, -9px)
+    .radio-item
+        flex: 1 1
+        margin: 0 9px 18px
+        label
+            width: 100%
+            padding: 10px
+            font-weight: 700
+            transition: 0.5s
+            background: white
+            text-align: center
+            position: relative
+            color: $heading-color
+            border: 1px solid $border-color
+        input
+            position: absolute
+            &:checked ~ label
+                color: white
+                background: $primary-color
+                border-color: $primary-color
+                

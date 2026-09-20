@@ -1,0 +1,80 @@
+/*******************************************************/
+/****************** ## Contact Forms ******************/
+/*******************************************************/
+.contact-form
+    padding: 40px
+    border: 1px solid $border-color
+    +res-bl(ms)
+        +gapLR(padding, 25px)
+        
+.contact-info-item
+    display: flex
+    max-width: 390px
+    align-items: center
+    .icon
+        flex: none
+        +size(80px)
+        font-size: 40px
+        text-align: center
+        line-height: 78px
+        margin-right: 40px
+        color: $primary-color
+        border: 1px solid $border-color
+        +res-bl(xs)
+            +size(60px)
+            font-size: 25px
+            line-height: 58px
+            margin-right: 20px
+    .title
+        display: block
+        font-size: 16px
+        margin-bottom: 6px
+    .text
+        font-weight: 700
+        line-height: 1.35
+        color: $heading-color
+        span
+            color: $primary-color
+        a
+            color: $heading-color
+    &:not(:last-child)
+        margin-bottom: 20px
+    
+/* Contact Info Box */
+.contact-info-box
+    transition: 0.5s
+    background: white
+    margin-bottom: 30px
+    padding: 50px 40px 45px
+    border: 1px solid $border-color
+    +res-ab(xs)
+        font-size: 18px
+    .icon
+        font-size: 55px
+        margin-bottom: 30px
+        color: $secondary-color
+        +res-bl(xs)
+            font-size: 40px
+    h4
+        margin-bottom: 15px
+        +res-ab(xs)
+            font-size: 24px
+    > a,
+    > span
+        display: inline-block
+    > b
+        font-weight: 500
+        color: $secondary-color
+    &:hover
+        border-color: white
+        box-shadow: $box-shadow
+        
+/* Contact Form Validation */
+.has-error
+    .with-errors
+        color: red
+        margin-top: 5px
+        margin-bottom: -15px
+#msgSubmit
+    margin-bottom: 0
+    margin-top: 10px

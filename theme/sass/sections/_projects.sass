@@ -1,0 +1,56 @@
+/*******************************************************/
+/****************** ## Projects Area *******************/
+/*******************************************************/
+.developer-area
+    &:before
+        content: ''
+        z-index: -1
+        +poLB(0)
+        +size(100%, 66%)
+        background: $secondary-color
+        clip-path: polygon(0 30%, 100% 0, 100% 70%, 0 100%)
+    
+.socials
+    b
+        display: inline-block
+        margin: 15px 20px 15px 0
+        a
+            color: $primary-color
+            
+.developer-item
+    overflow: hidden
+    margin-bottom: 30px
+    +overlay($heading-color, 0.3)
+    img
+        width: 100%
+    &:before
+        z-index: 1
+    .developer-content
+        +poLB(0, -166px)
+        z-index: 2
+        width: 100%
+        padding: 40px
+        transition: 0.5s
+        +res-bl(ms)
+            padding: 25px
+        *
+            color: white
+        .icon
+            font-size: 40px
+            margin-bottom: 30px
+        h3
+            margin-bottom: 20px
+            +res-bt(md, lg)
+                font-size: 33px
+            +res-bl(xs)
+                font-size: 30px
+        .details-btn
+            margin-top: 15px
+        p, .details-btn
+            opacity: 0
+            transition: 0.5s
+    &:hover
+        .developer-content
+            bottom: 0
+            p, .details-btn
+                opacity: 1

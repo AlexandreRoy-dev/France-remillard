@@ -1,0 +1,30 @@
+/*******************************************************/
+/******************** ## Team Area *********************/
+/*******************************************************/
+.team-area
+    &:before
+        +poLB(0)
+        z-index: -1
+        content: ''
+        +size(100%, 60%)
+        background: $secondary-color
+        clip-path: polygon(0 70%, 100% 0, 100% 100%, 0% 100%)
+
+.team-member
+    padding: 40px
+    background: white
+    text-align: center
+    margin-bottom: 30px
+    img
+        margin-bottom: 40px
+    .designation
+        display: block
+        font-size: 16px
+        margin-bottom: 8px
+    h6
+        text-transform: uppercase
+        span
+            color: $primary-color
+    hr
+        +container(80px)
+        +gapTB(margin, 20px)

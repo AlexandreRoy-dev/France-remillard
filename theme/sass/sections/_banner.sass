@@ -1,0 +1,122 @@
+/*******************************************************/
+/******************* ## Page Banner *******************/
+/*******************************************************/
+.banner-area
+    background-size: cover
+    background-color: #282E35
+    background-position: bottom
+.banner-content
+    h1
+        color: white
+        margin-bottom: 25px
+        +res-bl(xxl)
+            font-size: 65px
+        +res-bl(xl)
+            font-size: 55px
+        +res-bl(md)
+            font-size: 50px
+            margin-bottom: 15px
+        +res-bl(sm)
+            font-size: 42px
+    p
+        color: white
+        +res-ab(lg)
+            font-size: 24px
+            line-height: 1.4
+    .error-text
+        color: white
+        display: block
+        line-height: 1
+        font-size: 170px
+        font-weight: 700
+        +res-bl(md)
+            font-size: 120px
+        +res-bl(ms)
+            font-size: 80px
+    .theme-btn.style-three
+        +res-ab(lg)
+            padding: 16px 30px
+    .blog-meta
+        font-size: 16px
+        i
+            color: white
+            
+.blog-tags
+    display: flex
+    flex-wrap: wrap
+    align-items: center
+    +gapLR(margin, -5px)
+    a
+        font-size: 12px
+        font-weight: 700
+        color: $primary-color
+        text-transform: uppercase
+        &:after
+            content: '-'
+            +gapLR(margin, 5px)
+        &:first-child
+            &:before
+                content: '-'
+                margin-right: 5px
+        
+.breadcrumb
+    padding: 0
+    margin: 0
+    font-size: 16px
+    background: transparent
+    text-transform: capitalize
+    .breadcrumb-item
+        padding: 0
+        a:not(:hover)
+            color: white
+        &.active
+            color: $primary-color
+        &+.breadcrumb-item::before
+            +gapLR(margin, 10px)
+            flex: none
+            color: white
+            font-weight:
+            padding-right: 0
+            content: "\f178"
+            font-family: "Font Awesome 5 Pro"
+            
+/* cities area */
+.cities-area
+    background: #282E35
+.cities-select
+    h3
+        color: white
+        margin-bottom: 30px
+        +res-bl(md)
+            font-size: 35px
+        +res-bl(ms)
+            font-size: 30px
+    .nice-select
+        border: none
+        font-size: 24px
+        border-radius: 0
+        +gapTB(padding, 10px)
+        background-color: transparent
+        border-bottom: 1px solid $primary-color
+        +res-bl(xs)
+            font-size: 20px
+        &:after
+            border-color: $primary-color
+        .current
+            color: white
+            font-weight: 700
+        .list
+            padding: 20px
+            box-shadow: 0px 4px 20px rgba(40, 46, 53, 0.05)
+            li
+                +gapTB(padding, 10px)
+                +res-bl(xs)
+                    +gapTB(padding, 5px)
+                &:not(:last-child)
+                    border-bottom: 1px solid $border-color
+                &:hover,
+                &.selected
+                    font-weight: 400
+                    color: $primary-color
+                    background: transparent
+                    border-color: $primary-color

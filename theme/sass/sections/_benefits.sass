@@ -1,0 +1,61 @@
+/*******************************************************/
+/****************** ## Benefits Area ******************/
+/*******************************************************/
+.benefits-area
+    .section-title
+        max-width: 560px
+    .more-btn
+        font-weight: 700
+        display: flex
+        i
+            color: $primary-color
+            margin-left: 6px
+            font-size: 25px
+        
+.benefit-item
+    margin-bottom: 55px
+    .icon
+        +size(96px)
+        font-size: 40px
+        text-align: center
+        line-height: 96px
+        color: $primary-color
+        margin-bottom: 40px
+        border: 1px solid $primary-color
+    .content
+        h6
+            text-transform: uppercase
+            margin-bottom: 20px
+            
+// Benefits Area Two
+.benefits-area-two
+    position: relative
+    z-index: 1
+    &:after
+        content: ''
+        +poLT(0)
+        +size(100%)
+        background-color: #282E35
+        background-image: url(../images/background/benefits-bg.png)
+        background-size: cover
+        mix-blend-mode: overlay
+        clip-path: polygon(0 1%, 100% 0, 100% 100%, 83% 78%, 0 100%)
+        z-index: -1
+        +res-bl(xl)
+            clip-path: polygon(0 1%, 100% 0, 100% 100%, 80% 85%, 0 100%)
+    
+.benefit-two-item
+    background: white
+    margin-bottom: 40px
+    padding: 40px 40px 30px
+    height: calc(100% - 40px)
+    border: 1px solid $border-color
+    .icon
+        display: flex
+        align-items: center
+        margin-bottom: 20px
+        img
+            flex: none
+            margin-right: 20px
+        h6
+            margin-bottom: 0
