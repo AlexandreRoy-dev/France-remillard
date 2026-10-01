@@ -1,7 +1,7 @@
 {
-  "synced_at": "2026-10-01T06:00:09Z",
+  "synced_at": "2026-10-01T13:22:12Z",
   "source": "https://www.royallepage.ca/fr/search/get-list/property/53785/1/",
-  "count": 22,
+  "count": 21,
   "listings": [
     {
       "id": "29242248",
@@ -380,24 +380,6 @@
       "lat": null,
       "lng": null,
       "alt": "27 Rue de l'Érablière O. Saint-Hippolyte, QC J8A 1A3"
-    },
-    {
-      "id": "27212406",
-      "url": "https://www.royallepage.ca/fr/property/quebec/saint-jerome/331-boul-jerobelle/27212406/mls18443117/",
-      "mls": "18443117",
-      "sold": false,
-      "price_label": "309 000 $",
-      "type": "Copropriété",
-      "bedrooms": "2",
-      "bathrooms": "1+0",
-      "address": "331 Boul. Jérobelle",
-      "city": "Saint-Jérôme",
-      "postal": "J5L 1S2",
-      "photo_remote": "https://rlp.jumplisting.com/photos/27/21/24/6/27212406_0.jpg",
-      "photo": "assets/images/listings/27212406.jpg",
-      "lat": null,
-      "lng": null,
-      "alt": "331 Boul. Jérobelle Saint-Jérôme, QC J5L 1S2"
     }
   ]
 }
