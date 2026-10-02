@@ -1,5 +1,5 @@
 {
-  "synced_at": "2026-10-02T05:42:53Z",
+  "synced_at": "2026-10-02T22:16:52Z",
   "source": "https://www.royallepage.ca/fr/search/get-list/property/53785/1/",
   "count": 22,
   "listings": [
@@ -14,12 +14,12 @@
       "bathrooms": "2+0",
       "address": "779 Mtée Morel",
       "city": "Sainte-Sophie",
-      "postal": "J5J 2P3",
-      "photo_remote": "https://rlp.jumplisting.com/photos/29/35/42/12/29354212_0.jpg",
+      "postal": "",
+      "photo_remote": "",
       "photo": "assets/images/listings/29354212.jpg",
       "lat": null,
       "lng": null,
-      "alt": "779 Mtée Morel Sainte-Sophie, QC J5J 2P3"
+      "alt": ""
     },
     {
       "id": "29242248",
