@@ -1,25 +1,43 @@
 {
-  "synced_at": "2026-10-13T00:44:31Z",
+  "synced_at": "2026-10-13T22:48:07Z",
   "source": "https://www.royallepage.ca/fr/search/get-list/property/53785/1/",
-  "count": 24,
+  "count": 25,
   "listings": [
     {
+      "id": "29418224",
+      "url": "https://www.royallepage.ca/fr/property/quebec/prevost/bur2-1011-ch-du-lac-echo/29418224/mls13437834/",
+      "mls": "13437834",
+      "sold": false,
+      "price_label": "800.00 $ /mois +TPS/TVQ $",
+      "type": "Commercial",
+      "bedrooms": "",
+      "bathrooms": "",
+      "address": "BUR#2-1011 Ch. du Lac-Écho",
+      "city": "Prévost",
+      "postal": "J0R 1T0",
+      "photo_remote": "https://rlp.jumplisting.com/photos/29/41/82/24/29418224_0.jpg",
+      "photo": "assets/images/listings/29418224.jpg",
+      "lat": null,
+      "lng": null,
+      "alt": "BUR#2-1011 Ch. du Lac-Écho Prévost, QC J0R 1T0"
+    },
+    {
       "id": "29412544",
-      "url": "https://www.royallepage.ca/fr/property/quebec/prevost/1011-ch-du-lac-echo/29412544/mls18430153/",
+      "url": "https://www.royallepage.ca/fr/property/quebec/prevost/bur1-1011-ch-du-lac-echo/29412544/mls18430153/",
       "mls": "18430153",
       "sold": false,
       "price_label": "600.00 $ /mois +TPS/TVQ $",
       "type": "Commercial",
       "bedrooms": "",
       "bathrooms": "",
-      "address": "1011 Ch. du Lac-Écho",
+      "address": "BUR#1-1011 Ch. du Lac-Écho",
       "city": "Prévost",
       "postal": "J0R 1T0",
       "photo_remote": "https://rlp.jumplisting.com/photos/29/41/25/44/29412544_0.jpg",
       "photo": "assets/images/listings/29412544.jpg",
       "lat": null,
       "lng": null,
-      "alt": "1011 Ch. du Lac-Écho Prévost, QC J0R 1T0"
+      "alt": "BUR#1-1011 Ch. du Lac-Écho Prévost, QC J0R 1T0"
     },
     {
       "id": "29368212",
