@@ -11,6 +11,7 @@ import urllib.error
 import urllib.request
 from datetime import datetime, timezone
 from html import escape, unescape
+from io import BytesIO
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -26,9 +27,17 @@ INDEX_HTML = ROOT / "index.html"
 SITEMAP = ROOT / "sitemap.xml"
 MARKER_START = "<!-- SYNC:LISTINGS -->"
 MARKER_END = "<!-- /SYNC:LISTINGS -->"
-PHOTO_CACHE = "hd"
+PHOTO_CACHE = "q82"
 THUMB_SUFFIXES = ("_med.jpg", "_lg.jpg", "_sml.jpg", "_sm.jpg")
 MIN_PHOTO_BYTES = 80_000
+JPEG_QUALITY = 82
+JPEG_MAX_EDGE = 1920
+# A second pass at the same quality saves well under 3%. Skip it so the
+# scheduled sync does not rewrite photos that are already compressed.
+JPEG_MIN_RATIO = 0.97
+SITE = "https://franceremillard.com"
+AGENT_NODE_ID = f"{SITE}/#agent"
+DEFAULT_OG_IMAGE = f"{SITE}/assets/images/maison-banlieue.webp"
 
 CTX = ssl.create_default_context()
 
@@ -200,6 +209,41 @@ def photo_is_small(path: Path) -> bool:
     return not path.is_file() or path.stat().st_size < MIN_PHOTO_BYTES
 
 
+def compress_listing_jpeg(path: Path) -> None:
+    """Shrink a listing photo in place. Skip files that are already small."""
+    if not path.is_file() or path.stat().st_size < MIN_PHOTO_BYTES:
+        return
+    try:
+        from PIL import Image
+    except ImportError:
+        print("pillow missing, listing photo left unchanged", file=sys.stderr)
+        return
+    original = path.read_bytes()
+    with Image.open(BytesIO(original)) as image:
+        rgb = image.convert("RGB")
+        if max(rgb.size) > JPEG_MAX_EDGE:
+            rgb.thumbnail((JPEG_MAX_EDGE, JPEG_MAX_EDGE), Image.Resampling.LANCZOS)
+        buffer = BytesIO()
+        rgb.save(
+            buffer,
+            "JPEG",
+            quality=JPEG_QUALITY,
+            optimize=True,
+            progressive=True,
+            subsampling=2,
+        )
+    data = buffer.getvalue()
+    if len(data) >= MIN_PHOTO_BYTES and len(data) < len(original) * JPEG_MIN_RATIO:
+        path.write_bytes(data)
+
+
+def compress_listing_photos() -> None:
+    if not PHOTO_DIR.is_dir():
+        return
+    for path in PHOTO_DIR.glob("*.jpg"):
+        compress_listing_jpeg(path)
+
+
 def download_photos(listings: list[dict], force: bool = False) -> None:
     PHOTO_DIR.mkdir(parents=True, exist_ok=True)
     keep = set()
@@ -221,20 +265,290 @@ def download_photos(listings: list[dict], force: bool = False) -> None:
                 break
             except urllib.error.URLError as exc:
                 last_error = exc
-        if not saved:
+        if saved:
+            compress_listing_jpeg(dest)
+        else:
             print(f"photo failed {item['id']}: {last_error}", file=sys.stderr)
     for stale in PHOTO_DIR.glob("*.jpg"):
         if stale.name not in keep:
             stale.unlink()
 
 
-def nav_html(base: str, current: str) -> str:
+def abs_url(path: str) -> str:
+    if path.startswith("http://") or path.startswith("https://"):
+        return path
+    cleaned = path.strip()
+    while cleaned.startswith("../"):
+        cleaned = cleaned[3:]
+    if cleaned.startswith("./"):
+        cleaned = cleaned[2:]
+    if cleaned in ("", "/"):
+        return f"{SITE}/"
+    if not cleaned.startswith("/"):
+        cleaned = "/" + cleaned
+    return f"{SITE}{cleaned}"
+
+
+def json_ld_script(data: dict) -> str:
+    payload = json.dumps(data, ensure_ascii=False, indent=2).replace("<", "\\u003c")
+    return f'    <script type="application/ld+json">\n{payload}\n    </script>'
+
+
+def agent_node() -> dict:
+    return {
+        "@type": "RealEstateAgent",
+        "@id": AGENT_NODE_ID,
+        "name": "France Rémillard",
+        "url": f"{SITE}/",
+        "image": f"{SITE}/assets/images/france-remillard.webp",
+        "jobTitle": "Courtière immobilière",
+        "telephone": "+1-514-347-3786",
+        "email": "franceremillard@gmail.com",
+        "knowsLanguage": ["fr-CA", "en"],
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "401, rue Laviolette",
+            "addressLocality": "Saint-Jérôme",
+            "addressRegion": "QC",
+            "postalCode": "J7Y 2T2",
+            "addressCountry": "CA",
+        },
+        "areaServed": [
+            "Laurentides",
+            "Saint-Jérôme",
+            "Saint-Sauveur",
+            "Sainte-Adèle",
+            "Prévost",
+            "Piedmont",
+            "Morin-Heights",
+            "Saint-Hippolyte",
+            "Sainte-Anne-des-Lacs",
+            "Sainte-Agathe-des-Monts",
+            "Val-David",
+            "Val-Morin",
+            "Mont-Tremblant",
+            "Saint-Colomban",
+            "Sainte-Sophie",
+            "Estérel",
+            "Mille-Isles",
+            "Laval",
+            "Chomedey",
+            "Saint-Vincent-de-Paul",
+            "Laval-des-Rapides",
+            "Duvernay",
+            "Vimont",
+            "Saint-François",
+            "Blainville",
+            "Boisbriand",
+            "Mirabel",
+            "Terrebonne",
+            "Lachute",
+        ],
+        "worksFor": {"@type": "Organization", "name": "Royal LePage Humania"},
+        "contactPoint": [
+            {
+                "@type": "ContactPoint",
+                "telephone": "+1-514-347-3786",
+                "contactType": "Téléphone",
+                "availableLanguage": ["fr-CA", "en"],
+            },
+            {
+                "@type": "ContactPoint",
+                "telephone": "+1-450-438-6868",
+                "contactType": "Bureau",
+                "availableLanguage": ["fr-CA", "en"],
+            },
+        ],
+        "sameAs": [
+            "https://www.royallepage.ca/fr/agent/quebec/saint-jerome/france-remillard/53785/",
+            "https://www.centris.ca/fr/courtier-immobilier~france-remillard~royal-lepage-humania/d4337",
+        ],
+        "hasCredential": [
+            {
+                "@type": "EducationalOccupationalCredential",
+                "name": "REIS, Real Estate Investment Specialist",
+            },
+            {"@type": "EducationalOccupationalCredential", "name": "Permis de l'OACIQ"},
+        ],
+        "award": [
+            "2025, Attestation d'excellence, nouveau membre à vie",
+            "2024, Attestation platine de directeur",
+            "2023-2024, Membre Cercle Sélect",
+            "2022-2024, Top 10 % national",
+            "2020-2023, Palme d'or du président",
+        ],
+    }
+
+
+def website_node() -> dict:
+    return {
+        "@type": "WebSite",
+        "@id": f"{SITE}/#website",
+        "url": f"{SITE}/",
+        "name": "France Rémillard",
+        "inLanguage": "fr-CA",
+        "publisher": {"@id": AGENT_NODE_ID},
+    }
+
+
+def graph_script(*nodes: dict) -> str:
+    return json_ld_script({"@context": "https://schema.org", "@graph": list(nodes)})
+
+
+def social_meta(title: str, description: str, canonical: str, image: str) -> str:
+    return f"""    <link rel="canonical" href="{escape(canonical)}" />
+    <link rel="alternate" hreflang="fr-CA" href="{escape(canonical)}" />
+    <link rel="alternate" hreflang="x-default" href="{escape(canonical)}" />
+    <meta property="og:locale" content="fr_CA" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="France Rémillard" />
+    <meta property="og:title" content="{escape(title)}" />
+    <meta property="og:description" content="{escape(description)}" />
+    <meta property="og:url" content="{escape(canonical)}" />
+    <meta property="og:image" content="{escape(image)}" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="{escape(title)}" />
+    <meta name="twitter:description" content="{escape(description)}" />
+    <meta name="twitter:image" content="{escape(image)}" />"""
+
+
+def listing_alt(item: dict) -> str:
+    parts = [item.get("address") or "", item.get("city") or "", item.get("postal") or ""]
+    text = ", ".join(part for part in parts if part)
+    return text or item.get("alt") or "Propriété"
+
+
+def listing_copy(item: dict) -> tuple[str, str]:
+    address = item.get("address") or "Inscription"
+    city = item.get("city") or ""
+    place = f"{address}, {city}" if city else address
+    title = f"{place} | France Rémillard"
+    kind = item.get("type") or "Propriété"
+    price = display_price(item)
+    if item.get("sold") or price == "Vendue":
+        lead = f"{kind} vendue, {place}."
+    elif price and price != "Sur demande":
+        lead = f"{kind} à {price}, {place}."
+    else:
+        lead = f"{kind}, {place}."
+    description = f"{lead} France Rémillard, Royal LePage Humania."
+    if len(description) > 160:
+        description = f"{lead} France Rémillard."
+    if len(description) > 160:
+        description = lead
+    return title, description
+
+
+def postal_address(item: dict) -> dict:
+    address = {
+        "@type": "PostalAddress",
+        "streetAddress": item.get("address") or "",
+        "addressLocality": item.get("city") or "",
+        "addressRegion": "QC",
+        "addressCountry": "CA",
+    }
+    if item.get("postal"):
+        address["postalCode"] = item["postal"]
+    return address
+
+
+def offer_node(item: dict) -> dict | None:
+    seller = {"@id": AGENT_NODE_ID}
+    if item.get("sold"):
+        return {
+            "@type": "Offer",
+            "availability": "https://schema.org/SoldOut",
+            "priceCurrency": "CAD",
+            "seller": seller,
+        }
+    label = display_price(item)
+    rent = re.match(r"^(\d+(?:[.,]\d+)?)\s*\$\s*/\s*mois", label, re.I)
+    if rent:
+        price = rent.group(1).replace(",", ".")
+        return {
+            "@type": "Offer",
+            "price": price,
+            "priceCurrency": "CAD",
+            "availability": "https://schema.org/InStock",
+            "seller": seller,
+            "priceSpecification": {
+                "@type": "UnitPriceSpecification",
+                "price": price,
+                "priceCurrency": "CAD",
+                "unitText": "mois",
+            },
+        }
+    sale = re.match(r"^(\d[\d\s]*)\s*\$", label)
+    if sale:
+        digits = re.sub(r"\s+", "", sale.group(1))
+        if digits:
+            return {
+                "@type": "Offer",
+                "price": int(digits),
+                "priceCurrency": "CAD",
+                "availability": "https://schema.org/InStock",
+                "seller": seller,
+            }
+    return None
+
+
+def about_node(item: dict) -> dict:
+    kind = item.get("type") or ""
+    schema_type = {"Maison": "House", "Copropriété": "Apartment", "Fermette": "Residence"}.get(kind, "Place")
+    about = {"@type": schema_type, "name": item.get("address") or "", "address": postal_address(item)}
+    bedrooms = item.get("bedrooms") or ""
+    if bedrooms.isdigit() and schema_type in {"House", "Apartment", "Residence"}:
+        about["numberOfBedrooms"] = int(bedrooms)
+    baths = clean_baths(item.get("bathrooms") or "")
+    if baths.isdigit() and schema_type in {"House", "Apartment", "Residence"}:
+        about["numberOfBathroomsTotal"] = int(baths)
+    return about
+
+
+def listing_graph(item: dict, canonical: str, description: str, image: str | None) -> str:
+    node = {
+        "@type": "RealEstateListing",
+        "name": item.get("address") or "Inscription",
+        "url": canonical,
+        "description": description,
+        "inLanguage": "fr-CA",
+        "address": postal_address(item),
+        "about": about_node(item),
+        "seller": {
+            "@type": "RealEstateAgent",
+            "@id": AGENT_NODE_ID,
+            "name": "France Rémillard",
+            "url": f"{SITE}/",
+            "telephone": "+1-514-347-3786",
+        },
+    }
+    if image:
+        node["image"] = image
+    if item.get("url"):
+        node["sameAs"] = item["url"]
+    if item.get("mls"):
+        node["identifier"] = {"@type": "PropertyValue", "name": "MLS", "value": item["mls"]}
+    offer = offer_node(item)
+    if offer:
+        node["offers"] = offer
+    crumbs = {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Accueil", "item": f"{SITE}/"},
+            {"@type": "ListItem", "position": 2, "name": "Inscriptions", "item": f"{SITE}/inscriptions/"},
+            {"@type": "ListItem", "position": 3, "name": item.get("address") or "Inscription", "item": canonical},
+        ],
+    }
+    return graph_script(node, crumbs)
+
+
+def nav_html(current: str) -> str:
     links = [
-        (f"{base}index.html", "Accueil", "home"),
-        (f"{base}inscriptions/", "Inscriptions", "listings"),
-        (f"{base}index.html#parcours", "Parcours", "parcours"),
-        (f"{base}index.html#services", "Services", "services"),
-        (f"{base}index.html#contact", "Contact", "contact"),
+        ("/", "Accueil", "home"),
+        ("/inscriptions/", "Inscriptions", "listings"),
+        ("/#parcours", "Parcours", "parcours"),
+        ("/#services", "Services", "services"),
+        ("/#contact", "Contact", "contact"),
     ]
     items = []
     for href, label, key in links:
@@ -247,7 +561,7 @@ def chrome(base: str, current: str) -> tuple[str, str]:
     header = f"""    <a class="skip-link" href="#contenu">Aller au contenu</a>
     <header class="site-header">
       <div class="container header-inner">
-        <a class="brand" href="{base}index.html">
+        <a class="brand" href="/">
           <img class="brand__logo" src="{base}assets/images/logo-royal-lepage.png" alt="Royal LePage" width="600" height="221" />
           <span class="brand__meta">
             <span class="brand__office">Humania</span>
@@ -255,7 +569,7 @@ def chrome(base: str, current: str) -> tuple[str, str]:
           </span>
         </a>
         <nav class="site-nav" id="menu-mobile" data-nav-panel aria-label="Navigation principale">
-{nav_html(base, current)}
+{nav_html(current)}
         </nav>
         <div class="header-actions">
           <a class="btn btn--primary btn--phone" href="tel:+15143473786">514 347-3786</a>
@@ -377,7 +691,7 @@ def has_local_photo(item: dict) -> bool:
 def card_html(item: dict, photo_prefix: str, href: str, delay: float = 0) -> str:
     price = display_price(item)
     badge = "Vendue" if item.get("sold") else (item.get("type") or "Propriété")
-    alt = escape(item.get("alt") or item["address"])
+    alt = escape(listing_alt(item))
     wow_delay = 2 + min(round(delay / 0.3) if delay else 0, 2)
     sold_class = " listing-card--sold" if item.get("sold") else ""
     if has_local_photo(item):
@@ -409,11 +723,14 @@ def page_shell(
     base: str,
     current: str,
     body: str,
-    canonical: str = "./",
+    canonical: str = "/inscriptions/",
     og_image: str | None = None,
+    json_ld: str = "",
 ) -> str:
     header, footer = chrome(base, current)
-    image = og_image or f"{base}assets/images/france-remillard.png"
+    image = abs_url(og_image) if og_image else DEFAULT_OG_IMAGE
+    canon = abs_url(canonical)
+    ld = f"\n{json_ld}" if json_ld else ""
     return f"""<!DOCTYPE html>
 <html lang="fr-CA">
   <head>
@@ -421,11 +738,8 @@ def page_shell(
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{escape(title)}</title>
     <meta name="description" content="{escape(description)}" />
-    <link rel="canonical" href="{escape(canonical)}" />
+{social_meta(title, description, canon, image)}
     <link rel="icon" href="{base}assets/images/favicon.svg" type="image/svg+xml" />
-    <meta property="og:title" content="{escape(title)}" />
-    <meta property="og:description" content="{escape(description)}" />
-    <meta property="og:image" content="{escape(image)}" />
     <link rel="stylesheet" href="{base}theme/vendor/fontawesome-5.14.0.min.css" />
     <link rel="stylesheet" href="{base}css/styles.css" />
   </head>
@@ -434,7 +748,7 @@ def page_shell(
     <main id="contenu">
 {body}
     </main>
-{footer}
+{footer}{ld}
   </body>
 </html>
 """
@@ -482,12 +796,35 @@ def write_inscriptions_index(active: list[dict], sold: list[dict]) -> None:
 {sold_block}
         </div>
       </section>"""
+    title = "Inscriptions à vendre, Laurentides et Laval | France Rémillard"
+    description = "Maisons, condos, terrains et immeubles à vendre dans les Laurentides et à Laval, avec France Rémillard."
+    elements = []
+    position = 1
+    for item in active + sold:
+        elements.append(
+            {
+                "@type": "ListItem",
+                "position": position,
+                "name": item.get("address") or "Inscription",
+                "url": f"{SITE}/inscriptions/{item['id']}.html",
+            }
+        )
+        position += 1
+    item_list = {
+        "@type": "ItemList",
+        "name": "Inscriptions",
+        "url": f"{SITE}/inscriptions/",
+        "numberOfItems": len(elements),
+        "itemListElement": elements,
+    }
     html = page_shell(
-        "Inscriptions | France Rémillard",
-        "Maisons, condos, terrains et immeubles à vendre dans les Laurentides et à Laval.",
+        title,
+        description,
         "../",
         "listings",
         body,
+        canonical="/inscriptions/",
+        json_ld=graph_script(agent_node(), website_node(), item_list),
     )
     (INSCRIPTIONS_DIR / "index.html").write_text(html, encoding="utf-8")
 
@@ -501,7 +838,7 @@ def write_detail_pages(listings: list[dict]) -> None:
         city_line = escape(item["city"])
         if item.get("postal"):
             city_line = f"{city_line}, {escape(item['postal'])}"
-        alt = escape(item.get("alt") or item["address"])
+        alt = escape(listing_alt(item))
         if has_local_photo(item):
             media = f"""          <figure class="listing-detail__media">
             <img src="../{item['photo']}?v={PHOTO_CACHE}" alt="{alt}" width="1600" height="1200" />
@@ -523,14 +860,18 @@ def write_detail_pages(listings: list[dict]) -> None:
           </div>
         </div>
       </article>"""
+        title, description = listing_copy(item)
+        canonical = f"/inscriptions/{item['id']}.html"
+        image = abs_url(item["photo"]) if has_local_photo(item) else None
         html = page_shell(
-            f"{item['address']} | France Rémillard",
-            f"{item['address']}, {item['city']}. Inscription Royal LePage Humania.",
+            title,
+            description,
             "../",
             "listings",
             body,
-            canonical=f"{item['id']}.html",
-            og_image=f"../{item['photo']}" if has_local_photo(item) else None,
+            canonical=canonical,
+            og_image=image,
+            json_ld=listing_graph(item, abs_url(canonical), description, image),
         )
         (INSCRIPTIONS_DIR / f"{item['id']}.html").write_text(html, encoding="utf-8")
     for stale in INSCRIPTIONS_DIR.glob("*.html"):
@@ -559,8 +900,15 @@ def update_home_listings(active: list[dict]) -> None:
 
 
 def write_sitemap(listings: list[dict]) -> None:
-    urls = ["./", "./inscriptions/", "./secteurs/", "./secteurs/laurentides.html", "./secteurs/laval.html", "./secteurs/couronne-nord.html"]
-    urls.extend(f"./inscriptions/{item['id']}.html" for item in listings)
+    urls = [
+        f"{SITE}/",
+        f"{SITE}/inscriptions/",
+        f"{SITE}/secteurs/",
+        f"{SITE}/secteurs/laurentides.html",
+        f"{SITE}/secteurs/laval.html",
+        f"{SITE}/secteurs/couronne-nord.html",
+    ]
+    urls.extend(f"{SITE}/inscriptions/{item['id']}.html" for item in listings)
     items = "\n".join(
         f"  <url>\n    <loc>{url}</loc>\n    <changefreq>daily</changefreq>\n  </url>" for url in urls
     )
@@ -615,6 +963,7 @@ def main() -> int:
         download_photos(listings, force=not unchanged)
     else:
         print("listing data unchanged, refreshing pages only")
+    compress_listing_photos()
     write_json(listings, synced_at)
     active = [item for item in listings if not item["sold"]]
     sold = [item for item in listings if item["sold"]]
