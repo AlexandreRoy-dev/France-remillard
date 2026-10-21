@@ -29,6 +29,9 @@ jobs:
         with:
           python-version: "3.12"
 
+      - name: Install Pillow
+        run: pip install pillow
+
       - name: Fetch Royal LePage listings
         env:
           PYTHONUTF8: "1"
