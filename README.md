@@ -46,7 +46,8 @@ Ne pas retirer les commentaires `SYNC:LISTINGS` dans `index.html`: le script s'a
 
 1. Pousser la branche `main`
 2. Settings → Pages → Source: `main` / racine
-3. Quand le domaine de production est connu, remplacer le canonical `./` dans `index.html` et l'URL de `sitemap.xml`
+3. Les URL canoniques, `sitemap.xml` et `robots.txt` utilisent `https://franceremillard.com`
+4. Activer Enforce HTTPS dans Settings → Pages. Ce réglage n'est pas dans le dépôt: sans lui, `http://franceremillard.com` répond en HTTP et `http://www` redirige vers HTTP
 
 Le workflow d'inscriptions pousse sur `main`. Si Pages est branché sur cette branche, le site se met à jour après chaque sync.
 

@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 
+import io
 import json
 import re
 import ssl
@@ -29,8 +30,162 @@ MARKER_END = "<!-- /SYNC:LISTINGS -->"
 PHOTO_CACHE = "hd"
 THUMB_SUFFIXES = ("_med.jpg", "_lg.jpg", "_sml.jpg", "_sm.jpg")
 MIN_PHOTO_BYTES = 80_000
+MAX_PHOTO_EDGE = 1600
+JPEG_QUALITY = 82
+SITE = "https://franceremillard.com"
+AGENT_NODE = f"{SITE}/#agent"
+PORTRAIT = "assets/images/france-remillard.webp"
+HERO = "assets/images/maison-banlieue.jpg"
+SALE_PRICE = re.compile(r"^\d{1,3}(?: \d{3})* \$$")
 
 CTX = ssl.create_default_context()
+
+
+def site_url(path: str) -> str:
+    if path.startswith("http://") or path.startswith("https://"):
+        return path
+    if not path.startswith("/"):
+        path = "/" + path
+    return f"{SITE}{path}"
+
+
+def compress_jpeg(path: Path, max_edge: int = MAX_PHOTO_EDGE, quality: int = JPEG_QUALITY) -> None:
+    """Re-encode a downloaded listing photo. Keep the original if Pillow is missing or the file would grow."""
+    try:
+        from PIL import Image
+    except ImportError:
+        print(f"pillow missing, left {path.name} uncompressed", file=sys.stderr)
+        return
+    original = path.read_bytes()
+    try:
+        with Image.open(io.BytesIO(original)) as im:
+            im = im.convert("RGB")
+            im.thumbnail((max_edge, max_edge), Image.Resampling.LANCZOS)
+            im.save(path, "JPEG", quality=quality, optimize=True, progressive=True)
+    except Exception as exc:
+        path.write_bytes(original)
+        print(f"compress failed {path.name}: {exc}", file=sys.stderr)
+        return
+    if not path.is_file() or path.stat().st_size >= len(original):
+        path.write_bytes(original)
+
+
+def listing_title(item: dict) -> str:
+    address = item.get("address") or "Inscription"
+    city = item.get("city") or ""
+    if city:
+        return f"{address}, {city} | France Rémillard"
+    return f"{address} | France Rémillard"
+
+
+def listing_description(item: dict) -> str:
+    address = item.get("address") or "Cette inscription"
+    city = item.get("city") or "Québec"
+    kind = item.get("type") or "Propriété"
+    if item.get("sold"):
+        lead = f"{kind} vendue à {city}"
+    else:
+        lead = f"{kind} à {city}"
+    text = f"{lead}. {address}. France Rémillard, courtière immobilière, Royal LePage Humania."
+    if len(text) > 165:
+        text = f"{lead}. {address}. Inscription Royal LePage Humania."
+    return text
+
+
+def sale_price(item: dict) -> int | None:
+    """Plain sale price only. Skip monthly rents, tax notes, and sold listings."""
+    if item.get("sold"):
+        return None
+    label = (item.get("price_label") or "").strip()
+    if not SALE_PRICE.fullmatch(label):
+        return None
+    digits = re.sub(r"\D", "", label)
+    return int(digits) if digits else None
+
+
+AGENT_LD = {
+    "@context": "https://schema.org",
+    "@type": "RealEstateAgent",
+    "@id": AGENT_NODE,
+    "name": "France Rémillard",
+    "url": f"{SITE}/",
+    "image": site_url("/" + PORTRAIT),
+    "description": (
+        "Courtière immobilière à Saint-Jérôme. Achat et vente de maisons, chalets "
+        "et immeubles dans les Laurentides, à Laval et sur la couronne nord."
+    ),
+    "telephone": "+1-514-347-3786",
+    "email": "franceremillard@gmail.com",
+    "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "401, rue Laviolette",
+        "addressLocality": "Saint-Jérôme",
+        "addressRegion": "QC",
+        "postalCode": "J7Y 2T2",
+        "addressCountry": "CA",
+    },
+    "areaServed": [
+        "Laurentides",
+        "Saint-Jérôme",
+        "Saint-Sauveur",
+        "Sainte-Adèle",
+        "Prévost",
+        "Piedmont",
+        "Morin-Heights",
+        "Saint-Hippolyte",
+        "Sainte-Anne-des-Lacs",
+        "Sainte-Agathe-des-Monts",
+        "Val-David",
+        "Val-Morin",
+        "Mont-Tremblant",
+        "Saint-Colomban",
+        "Sainte-Sophie",
+        "Estérel",
+        "Mille-Isles",
+        "Laval",
+        "Chomedey",
+        "Saint-Vincent-de-Paul",
+        "Laval-des-Rapides",
+        "Duvernay",
+        "Vimont",
+        "Saint-François",
+        "Blainville",
+        "Boisbriand",
+        "Mirabel",
+        "Terrebonne",
+        "Lachute",
+    ],
+    "worksFor": {
+        "@type": "Organization",
+        "name": "Royal LePage Humania",
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "401, rue Laviolette",
+            "addressLocality": "Saint-Jérôme",
+            "addressRegion": "QC",
+            "postalCode": "J7Y 2T2",
+            "addressCountry": "CA",
+        },
+    },
+    "contactPoint": [
+        {
+            "@type": "ContactPoint",
+            "telephone": "+1-514-347-3786",
+            "contactType": "customer service",
+            "availableLanguage": ["French", "English"],
+        },
+        {
+            "@type": "ContactPoint",
+            "telephone": "+1-450-438-6868",
+            "contactType": "customer service",
+        },
+    ],
+    "knowsLanguage": ["fr-CA", "en"],
+    "sameAs": [
+        "https://www.royallepage.ca/fr/agent/quebec/saint-jerome/france-remillard/53785/",
+        "https://www.centris.ca/fr/courtier-immobilier~france-remillard~royal-lepage-humania/d4337",
+    ],
+}
 
 
 def upgrade_photo_url(url: str) -> str:
@@ -216,6 +371,7 @@ def download_photos(listings: list[dict], force: bool = False) -> None:
         for candidate in photo_candidates(remote):
             try:
                 dest.write_bytes(fetch(candidate))
+                compress_jpeg(dest)
                 item["photo_remote"] = candidate
                 saved = True
                 break
@@ -228,13 +384,13 @@ def download_photos(listings: list[dict], force: bool = False) -> None:
             stale.unlink()
 
 
-def nav_html(base: str, current: str) -> str:
+def nav_html(current: str) -> str:
     links = [
-        (f"{base}index.html", "Accueil", "home"),
-        (f"{base}inscriptions/", "Inscriptions", "listings"),
-        (f"{base}index.html#parcours", "Parcours", "parcours"),
-        (f"{base}index.html#services", "Services", "services"),
-        (f"{base}index.html#contact", "Contact", "contact"),
+        ("/", "Accueil", "home"),
+        ("/inscriptions/", "Inscriptions", "listings"),
+        ("/#parcours", "Parcours", "parcours"),
+        ("/#services", "Services", "services"),
+        ("/#contact", "Contact", "contact"),
     ]
     items = []
     for href, label, key in links:
@@ -247,15 +403,15 @@ def chrome(base: str, current: str) -> tuple[str, str]:
     header = f"""    <a class="skip-link" href="#contenu">Aller au contenu</a>
     <header class="site-header">
       <div class="container header-inner">
-        <a class="brand" href="{base}index.html">
-          <img class="brand__logo" src="{base}assets/images/logo-royal-lepage.png" alt="Royal LePage" width="600" height="221" />
+        <a class="brand" href="/">
+          <img class="brand__logo" src="{base}assets/images/logo-royal-lepage.png" alt="Royal LePage Humania" width="600" height="221" />
           <span class="brand__meta">
             <span class="brand__office">Humania</span>
             <span class="brand__name">France Rémillard</span>
           </span>
         </a>
         <nav class="site-nav" id="menu-mobile" data-nav-panel aria-label="Navigation principale">
-{nav_html(base, current)}
+{nav_html(current)}
         </nav>
         <div class="header-actions">
           <a class="btn btn--primary btn--phone" href="tel:+15143473786">514 347-3786</a>
@@ -268,7 +424,7 @@ def chrome(base: str, current: str) -> tuple[str, str]:
     footer = f"""    <footer class="site-footer">
       <div class="container footer-grid">
         <div>
-          <img class="brand__logo footer-logo" src="{base}assets/images/logo-royal-lepage.png" alt="Royal LePage" width="180" height="66" />
+          <img class="brand__logo footer-logo" src="{base}assets/images/logo-royal-lepage.png" alt="Royal LePage Humania" width="180" height="66" />
           <p class="footer-note">
             France Rémillard, courtière immobilière résidentielle et commerciale, Royal LePage
             Humania. Titulaire d'un permis de l'OACIQ. 401, rue Laviolette, Saint-Jérôme
@@ -403,29 +559,53 @@ def card_html(item: dict, photo_prefix: str, href: str, delay: float = 0) -> str
             </article>"""
 
 
+def meta_tags(title: str, description: str, canonical: str, image: str) -> str:
+    safe_title = escape(title)
+    safe_description = escape(description)
+    safe_canonical = escape(canonical)
+    safe_image = escape(image)
+    return f"""    <title>{safe_title}</title>
+    <meta name="description" content="{safe_description}" />
+    <link rel="canonical" href="{safe_canonical}" />
+    <meta property="og:locale" content="fr_CA" />
+    <meta property="og:site_name" content="France Rémillard" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="{safe_title}" />
+    <meta property="og:description" content="{safe_description}" />
+    <meta property="og:url" content="{safe_canonical}" />
+    <meta property="og:image" content="{safe_image}" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="{safe_title}" />
+    <meta name="twitter:description" content="{safe_description}" />
+    <meta name="twitter:image" content="{safe_image}" />"""
+
+
+def jsonld_script(payload: dict) -> str:
+    body = json.dumps(payload, ensure_ascii=False, indent=2)
+    return f"""    <script type="application/ld+json">
+{body}
+    </script>"""
+
+
 def page_shell(
     title: str,
     description: str,
     base: str,
     current: str,
     body: str,
-    canonical: str = "./",
-    og_image: str | None = None,
+    canonical: str,
+    og_image: str,
+    structured: dict | None = None,
 ) -> str:
     header, footer = chrome(base, current)
-    image = og_image or f"{base}assets/images/france-remillard.png"
+    structured_html = f"\n{jsonld_script(structured)}" if structured else ""
     return f"""<!DOCTYPE html>
 <html lang="fr-CA">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{escape(title)}</title>
-    <meta name="description" content="{escape(description)}" />
-    <link rel="canonical" href="{escape(canonical)}" />
-    <link rel="icon" href="{base}assets/images/favicon.svg" type="image/svg+xml" />
-    <meta property="og:title" content="{escape(title)}" />
-    <meta property="og:description" content="{escape(description)}" />
-    <meta property="og:image" content="{escape(image)}" />
+{meta_tags(title, description, canonical, og_image)}
+    <link rel="icon" href="{base}assets/images/favicon.svg" type="image/svg+xml" />{structured_html}
     <link rel="stylesheet" href="{base}theme/vendor/fontawesome-5.14.0.min.css" />
     <link rel="stylesheet" href="{base}css/styles.css" />
   </head>
@@ -483,13 +663,48 @@ def write_inscriptions_index(active: list[dict], sold: list[dict]) -> None:
         </div>
       </section>"""
     html = page_shell(
-        "Inscriptions | France Rémillard",
-        "Maisons, condos, terrains et immeubles à vendre dans les Laurentides et à Laval.",
+        "Inscriptions immobilières | France Rémillard, Saint-Jérôme",
+        "Maisons, condos, terrains et immeubles à vendre dans les Laurentides, à Laval et sur la couronne nord.",
         "../",
         "listings",
         body,
+        canonical=site_url("/inscriptions/"),
+        og_image=site_url("/" + HERO),
+        structured=AGENT_LD,
     )
     (INSCRIPTIONS_DIR / "index.html").write_text(html, encoding="utf-8")
+
+
+def listing_ld(item: dict) -> dict:
+    path = f"/inscriptions/{item['id']}.html"
+    data: dict = {
+        "@context": "https://schema.org",
+        "@type": "RealEstateListing",
+        "name": item.get("address") or "Inscription",
+        "url": site_url(path),
+        "description": listing_description(item),
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": item.get("address") or "",
+            "addressLocality": item.get("city") or "",
+            "addressRegion": "QC",
+            "addressCountry": "CA",
+        },
+        "broker": {"@id": AGENT_NODE},
+    }
+    if item.get("postal"):
+        data["address"]["postalCode"] = item["postal"]
+    if has_local_photo(item):
+        data["image"] = site_url("/" + item["photo"])
+    amount = sale_price(item)
+    if amount:
+        data["offers"] = {
+            "@type": "Offer",
+            "price": str(amount),
+            "priceCurrency": "CAD",
+            "url": site_url(path),
+        }
+    return data
 
 
 def write_detail_pages(listings: list[dict]) -> None:
@@ -523,14 +738,16 @@ def write_detail_pages(listings: list[dict]) -> None:
           </div>
         </div>
       </article>"""
+        image = site_url("/" + item["photo"]) if has_local_photo(item) else site_url("/" + PORTRAIT)
         html = page_shell(
-            f"{item['address']} | France Rémillard",
-            f"{item['address']}, {item['city']}. Inscription Royal LePage Humania.",
+            listing_title(item),
+            listing_description(item),
             "../",
             "listings",
             body,
-            canonical=f"{item['id']}.html",
-            og_image=f"../{item['photo']}" if has_local_photo(item) else None,
+            canonical=site_url(f"/inscriptions/{item['id']}.html"),
+            og_image=image,
+            structured=listing_ld(item),
         )
         (INSCRIPTIONS_DIR / f"{item['id']}.html").write_text(html, encoding="utf-8")
     for stale in INSCRIPTIONS_DIR.glob("*.html"):
@@ -559,8 +776,15 @@ def update_home_listings(active: list[dict]) -> None:
 
 
 def write_sitemap(listings: list[dict]) -> None:
-    urls = ["./", "./inscriptions/", "./secteurs/", "./secteurs/laurentides.html", "./secteurs/laval.html", "./secteurs/couronne-nord.html"]
-    urls.extend(f"./inscriptions/{item['id']}.html" for item in listings)
+    urls = [
+        site_url("/"),
+        site_url("/inscriptions/"),
+        site_url("/secteurs/"),
+        site_url("/secteurs/laurentides.html"),
+        site_url("/secteurs/laval.html"),
+        site_url("/secteurs/couronne-nord.html"),
+    ]
+    urls.extend(site_url(f"/inscriptions/{item['id']}.html") for item in listings)
     items = "\n".join(
         f"  <url>\n    <loc>{url}</loc>\n    <changefreq>daily</changefreq>\n  </url>" for url in urls
     )
