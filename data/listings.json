@@ -1,7 +1,7 @@
 {
-  "synced_at": "2026-10-25T11:36:49Z",
+  "synced_at": "2026-10-26T22:42:10Z",
   "source": "https://www.royallepage.ca/fr/search/get-list/property/53785/1/",
-  "count": 24,
+  "count": 23,
   "listings": [
     {
       "id": "29418224",
@@ -146,24 +146,6 @@
       "lat": null,
       "lng": null,
       "alt": "2084 Ch. de Val-des-Lacs Sainte-Sophie, QC J5J 2S8"
-    },
-    {
-      "id": "29026140",
-      "url": "https://www.royallepage.ca/fr/property/quebec/prevost/638-rue-du-joli-bois/29026140/mls12220990/",
-      "mls": "12220990",
-      "sold": false,
-      "price_label": "875 000 $",
-      "type": "Maison",
-      "bedrooms": "4",
-      "bathrooms": "2+0",
-      "address": "638 Rue du Joli-Bois",
-      "city": "Prévost",
-      "postal": "J0R 1T0",
-      "photo_remote": "https://rlp.jumplisting.com/photos/29/2/61/40/29026140_0.jpg",
-      "photo": "assets/images/listings/29026140.jpg",
-      "lat": null,
-      "lng": null,
-      "alt": "638 Rue du Joli-Bois Prévost, QC J0R 1T0"
     },
     {
       "id": "29016234",
